@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="description" content="Create your NutriFit account.">
+    <title>Create Account — NutriFit</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<header>
+    <div class="logo">NutriFit</div>
+</header>
+
+<div class="form-container">
+
+    <h2>Create Your NutriFit Account</h2>
+    {% if error %}
+    <div class="form-error">{{ error }}</div>
+    {% endif %}
+    <form action="/register" method="post">
+
+        <input type="text" name="name" placeholder="Full Name" required>
+
+        <input type="email" name="email" placeholder="Email" required>
+
+        <input type="password" name="password" placeholder="Password" required minlength="6">
+
+        <button type="submit" class="primary-btn">Create Account</button>
+
+    </form>
+
+    <p style="margin-top: 16px; font-size: 14px; color: #64748b;">
+        Already tracking? <a href="/profile" style="color: #38bdf8;">Set your profile</a>
+    </p>
+
+</div>
+
+</body>
+</html>

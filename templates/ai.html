@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="description" content="Chat with NutriBot — your AI nutrition assistant.">
+    <title>NutriFit — NutriBot</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        .chat-page {
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 120px);
+        }
+
+        .chat-page-title {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #e2e8f0;
+        }
+
+        .chat-page-messages {
+            flex: 1;
+            overflow-y: auto;
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .chat-page-input {
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-page-input input {
+            flex: 1;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: none;
+            background: #1e293b;
+            color: white;
+            font-size: 15px;
+        }
+
+        .chat-page-input input::placeholder {
+            color: #64748b;
+        }
+
+        .chat-page-input button {
+            padding: 12px 20px;
+            background: #22c55e;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+
+        .chat-page-input button:hover {
+            background: #16a34a;
+        }
+
+        .quick-suggestions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .quick-suggestions button {
+            padding: 6px 14px;
+            background: #1e293b;
+            color: #94a3b8;
+            border: 1px solid #334155;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+
+        .quick-suggestions button:hover {
+            background: #334155;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">NutriFit</div>
+    <a href="/dashboard" class="start-btn">Dashboard</a>
+</header>
+
+<div class="chat-page">
+
+    <div class="chat-page-title">🤖 Chat with NutriBot</div>
+
+    <div class="quick-suggestions">
+        <button onclick="quickMsg('What should I eat to complete my protein?')">What to eat?</button>
+        <button onclick="quickMsg('Give me a meal plan')">Meal plan</button>
+        <button onclick="quickMsg('What is my protein status?')">Protein status</button>
+        <button onclick="quickMsg('Hi')">Say hi</button>
+    </div>
+
+    <div class="chat-page-messages" id="nutriMessages">
+        <div class="chat-msg bot">
+            <div class="chat-avatar">🤖</div>
+            <div>
+                <div class="chat-bubble">
+                    Hey! I'm NutriBot 🥗
+                    Ask me about your protein goals, meal ideas, or diet planning!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="chat-page-input">
+        <input type="text" id="nutriInput" placeholder="Ask NutriBot anything...">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+<script>
+    document.getElementById("nutriMessages").dataset.greeted = "true"
+</script>
+
+</body>
+</html>
