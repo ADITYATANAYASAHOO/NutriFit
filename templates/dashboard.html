@@ -84,6 +84,7 @@
 
 <script>
     setGoal("{{ protein }}")
+    const username = "{{ session['user']['name'] if session.get('user') else 'User' }}"
 </script>
 
 </body>

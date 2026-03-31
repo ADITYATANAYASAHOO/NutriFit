@@ -15,7 +15,6 @@ function loadState() {
         totalFat = state.totalFat || 0
         meals = state.meals || []
         updateUI()
-        // Re-render saved meals into the result div
         const result = document.querySelector(".meal-result")
         if (result) {
             meals.forEach(m => {
@@ -169,52 +168,58 @@ function getSuggestions(input) {
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    loadState() 
-
     const toggle = document.getElementById("nutriToggle")
+    const windowBox = document.getElementById("nutriWindow")
     const closeBtn = document.getElementById("nutriClose")
+    const chatBox = document.getElementById("nutriMessages")
 
-    if (toggle) {
-        toggle.onclick = () => {
-            document.getElementById("nutriWindow").style.display = "flex"
+    const greetings = [
+        `Welcome ${username}! 👋`,
+        `Welcome back ${username}! 😎`,
+        `Good to see you ${username}! 💪`,
+        `Hey ${username}, ready to crush your goals? 🔥`,
+        `Yo ${username}! Let’s get those gains 💥`
+    ]
 
-            if (!document.getElementById("nutriMessages").dataset.greeted) {
-                document.getElementById("nutriMessages").innerHTML += `
-                <div class="chat-msg bot">
-                    <div class="chat-avatar">🤖</div>
-                    <div>
-                        <div class="chat-bubble">
-                            Hey! I'm NutriBot 🥗<br><br>
-                            How can I help you today?
-                        </div>
-                    </div>
-                </div>`
-                document.getElementById("nutriMessages").dataset.greeted = "true"
-            }
-        }
+    function getRandomGreeting() {
+        return greetings[Math.floor(Math.random() * greetings.length)]
     }
 
-    if (closeBtn) {
-        closeBtn.onclick = () => {
-            document.getElementById("nutriWindow").style.display = "none"
-        }
+    if (toggle && windowBox) {
+        toggle.addEventListener("click", () => {
+            windowBox.style.display = "flex"
+
+            chatBox.innerHTML = ""
+
+            chatBox.innerHTML += `
+            <div class="chat-msg bot">
+                <div class="chat-avatar">🤖</div>
+                <div>
+                    ${getRandomGreeting()}
+                </div>
+            </div>
+            `
+        })
     }
+
+    if (closeBtn && windowBox) {
+        closeBtn.addEventListener("click", () => {
+            windowBox.style.display = "none"
+        })
+    }
+
+    // ================= ENTER TO SEND =================
 
     const inputBox = document.getElementById("nutriInput")
-    if (inputBox) {
-        inputBox.addEventListener("keypress", function (e) {
-            if (e.key === "Enter") sendMessage()
-        })
-    }
 
-    document.querySelectorAll(".food-input").forEach(input => {
-        input.addEventListener("keypress", function (e) {
-            if (e.key === "Enter") {
-                const addBtn = this.closest(".meal").querySelector("button")
-                if (addBtn) addFood(addBtn)
+    if (inputBox) {
+        inputBox.addEventListener("keydown", function (e) {
+            if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault()
+                sendMessage()
             }
         })
-    })
+    }
 
 })
 
