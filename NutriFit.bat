@@ -1,3 +1,5 @@
-cd C:\Users\KIIT0001\OneDrive\Desktop\NutriFit
+@echo off
+cd /d %~dp0
+echo Starting NutriFit...
 python app.py
 pause

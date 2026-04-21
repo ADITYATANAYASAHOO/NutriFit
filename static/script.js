@@ -1,21 +1,36 @@
+// ===== GLOBAL DATA =====
+
+let proteinGoal = parseFloat(document.body.dataset.protein)
+const username = document.body.dataset.username
+
 let totalCalories = 0
 let totalProtein = 0
 let totalCarbs = 0
 let totalFat = 0
+
 let meals = []
-let proteinGoal = 0
+
+window.goalReached = false
+
+
+// ===== LOAD & SAVE STATE =====
 
 function loadState() {
     const saved = localStorage.getItem("nutrifit_state")
+
     if (saved) {
         const state = JSON.parse(saved)
+
         totalCalories = state.totalCalories || 0
         totalProtein = state.totalProtein || 0
         totalCarbs = state.totalCarbs || 0
         totalFat = state.totalFat || 0
         meals = state.meals || []
-        updateUI()
+
+        updateDashboard()
+
         const result = document.querySelector(".meal-result")
+
         if (result) {
             meals.forEach(m => {
                 result.innerHTML += `
@@ -30,78 +45,68 @@ function loadState() {
 
 function saveState() {
     localStorage.setItem("nutrifit_state", JSON.stringify({
-        totalCalories, totalProtein, totalCarbs, totalFat, meals
+        totalCalories,
+        totalProtein,
+        totalCarbs,
+        totalFat,
+        meals
     }))
 }
 
-// SET GOAL FROM HTML
-function setGoal(value) {
-    proteinGoal = Number(value)
-    updateUI()
-}
 
-function updateUI() {
-    const elCal = document.getElementById("total-calories")
-    const elPro = document.getElementById("total-protein")
-    const elCarb = document.getElementById("total-carbs")
-    const elFat = document.getElementById("total-fat")
-    const elRem = document.getElementById("remaining-protein")
-    const elStatus = document.getElementById("protein-status")
+// ===== DASHBOARD UPDATE =====
 
-    if (elCal) elCal.innerText = totalCalories.toFixed(2)
-    if (elPro) elPro.innerText = totalProtein.toFixed(2)
-    if (elCarb) elCarb.innerText = totalCarbs.toFixed(2)
-    if (elFat) elFat.innerText = totalFat.toFixed(2)
+function updateDashboard() {
 
-    const remaining = Math.max(0, proteinGoal - totalProtein)
-    if (elRem) elRem.innerText = remaining.toFixed(2)
+    document.getElementById("total-calories").innerText = totalCalories.toFixed(0)
+    document.getElementById("total-protein").innerText = totalProtein.toFixed(0)
+    document.getElementById("total-carbs").innerText = totalCarbs.toFixed(0)
+    document.getElementById("total-fat").innerText = totalFat.toFixed(0)
 
-    if (elStatus) {
-        if (proteinGoal === 0) {
-            elStatus.innerText = ""
-        } else if (totalProtein >= proteinGoal) {
-            elStatus.innerText = "🎉 Protein goal reached for today!"
-            elStatus.style.color = "#22c55e"
-        } else {
-            elStatus.innerText = "You are behind by " + remaining.toFixed(0) + "g protein"
-            elStatus.style.color = "#facc15"
+    const remaining = proteinGoal - totalProtein
+    document.getElementById("remaining-protein").innerText = remaining.toFixed(0)
+
+    const status = document.getElementById("protein-status")
+
+    if (remaining <= 0) {
+        status.innerText = "🔥 Protein goal achieved!"
+        status.style.color = "#22c55e"
+
+        if (!window.goalReached) {
+            alert("🎉 Protein goal completed!")
+            window.goalReached = true
         }
+
+    } else {
+        status.innerText = `You need ${remaining.toFixed(0)}g more protein`
+        status.style.color = "#f59e0b"
     }
 }
 
-// ================= ADD FOOD =================
+
+// ===== ADD FOOD =====
 
 function addFood(button) {
 
-    const meal = button.parentElement
-    const food = meal.querySelector(".food-input").value
-    const qty = meal.querySelector(".food-qty").value
+    const container = button.closest(".meal")
+    const input = container.querySelector(".food-input")
+    const qtyInput = container.querySelector(".food-qty")
 
-    if (food.trim() === "") {
-        alert("Enter food first")
-        return
-    }
+    const food = input.value.trim()
+    const qty = qtyInput.value ? parseFloat(qtyInput.value) : 1
+
+    if (!food) return
 
     fetch("/get_food_data", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ food: food, quantity: qty })
+        body: JSON.stringify({
+            food: food,
+            quantity: qty
+        })
     })
     .then(res => res.json())
     .then(data => {
-
-        const result = meal.querySelector(".meal-result")
-
-        if (data.calories === 0) {
-            result.innerHTML += "<div class='food-not-found'>Food not found. Try a different name.</div>"
-            return
-        }
-
-        result.innerHTML += `
-        <div class="food-item">
-            <strong>${food}</strong> x ${qty} serving(s)<br>
-            Calories: ${data.calories} kcal | Protein: ${data.protein}g
-        </div>`
 
         totalCalories += data.calories
         totalProtein += data.protein
@@ -109,28 +114,28 @@ function addFood(button) {
         totalFat += data.fat
 
         meals.push({
-            food: food,
-            qty: qty,
-            protein: data.protein,
-            calories: data.calories
+            food,
+            qty,
+            calories: data.calories,
+            protein: data.protein
         })
 
-        updateUI()
-        saveState() 
+        saveState()
+        updateDashboard()
 
-        meal.querySelector(".food-input").value = ""
-        meal.querySelector(".food-qty").value = 1
-        meal.querySelector(".suggestions").innerHTML = ""
+        const resultDiv = container.querySelector(".meal-result")
 
-    })
-    .catch(err => {
-        const result = meal.querySelector(".meal-result")
-        result.innerHTML += "<div class='food-not-found'>Could not reach server. Please try again.</div>"
-        console.error("Add food error:", err)
+        resultDiv.innerHTML += `
+            <p>${food} (${qty}) → ${data.protein}g protein</p>
+        `
+
+        input.value = ""
+        qtyInput.value = ""
     })
 }
 
-// ================= AUTOCOMPLETE =================
+
+// ===== AUTOCOMPLETE =====
 
 function getSuggestions(input) {
 
@@ -151,22 +156,23 @@ function getSuggestions(input) {
         data.forEach(food => {
             const div = document.createElement("div")
             div.innerText = food
+
             div.onclick = () => {
                 input.value = food
                 box.innerHTML = ""
             }
+
             box.appendChild(div)
         })
-
-    })
-    .catch(err => {
-        console.error("Suggestion error:", err)
     })
 }
 
-// ================= NUTRIBOT =================
+
+// ===== NUTRIBOT =====
 
 document.addEventListener("DOMContentLoaded", () => {
+
+    loadState()  // ✅ IMPORTANT
 
     const toggle = document.getElementById("nutriToggle")
     const windowBox = document.getElementById("nutriWindow")
@@ -187,18 +193,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (toggle && windowBox) {
         toggle.addEventListener("click", () => {
-            windowBox.style.display = "flex"
 
+            windowBox.style.display = "flex"
             chatBox.innerHTML = ""
 
             chatBox.innerHTML += `
             <div class="chat-msg bot">
                 <div class="chat-avatar">🤖</div>
-                <div>
-                    ${getRandomGreeting()}
-                </div>
-            </div>
-            `
+                <div>${getRandomGreeting()}</div>
+            </div>`
         })
     }
 
@@ -208,8 +211,7 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     }
 
-    // ================= ENTER TO SEND =================
-
+    // ENTER TO SEND
     const inputBox = document.getElementById("nutriInput")
 
     if (inputBox) {
@@ -223,20 +225,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
 })
 
-// QUICK SUGGESTION CLICK
-function quickMsg(text) {
-    document.getElementById("nutriInput").value = text
-    sendMessage()
-}
 
-// ================= SEND MESSAGE =================
+// ===== SEND MESSAGE =====
 
 function sendMessage() {
 
     const input = document.getElementById("nutriInput")
     const message = input.value
 
-    if (message.trim() === "") return
+    if (!message.trim()) return
 
     const chatBox = document.getElementById("nutriMessages")
 
@@ -261,23 +258,10 @@ function sendMessage() {
         chatBox.innerHTML += `
         <div class="chat-msg bot">
             <div class="chat-avatar">🤖</div>
-            <div>
-                <div class="chat-bubble">${data.reply}</div>
-            </div>
+            <div class="chat-bubble">${data.reply}</div>
         </div>`
 
         chatBox.scrollTop = chatBox.scrollHeight
-
-    })
-    .catch(err => {
-        chatBox.innerHTML += `
-        <div class="chat-msg bot">
-            <div class="chat-avatar">🤖</div>
-            <div>
-                <div class="chat-bubble">Sorry, I couldn't connect. Please try again.</div>
-            </div>
-        </div>`
-        console.error("Chat error:", err)
     })
 
     input.value = ""

@@ -1,91 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#0f172a">
-    <meta name="description" content="NutriFit Dashboard — track your daily nutrition.">
-    <title>NutriFit — Dashboard</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0f172a">
+<title>NutriFit — Dashboard</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
-<body>
+<body 
+data-username="{{ session['user']['name'] if session.get('user') else 'User' }}"
+data-protein="{{ protein }}">
 
 <header>
     <div class="logo">NutriFit</div>
-    <nav style="display:flex; gap:16px;">
+
+    <nav style="display:flex; gap:12px;">
+        <span>Hi, {{ session['user']['name'] }}</span>
         <a href="/" class="start-btn">Home</a>
         <a href="/profile" class="start-btn">Edit Profile</a>
+        <a href="/logout" class="start-btn" style="background:red;">Logout</a>
     </nav>
 </header>
 
 <div class="dashboard">
 
-    <h2>Your Daily Goals</h2>
+<h2>Your Daily Goals</h2>
 
-    <div class="goal-card">
-        <p>🔥 Calories: <strong>{{ calories }} kcal</strong></p>
-        <p>💪 Protein: <strong>{{ protein }} g</strong></p>
-        <p>🌾 Carbs: <strong>{{ carbs }} g</strong></p>
-        <p>🥑 Fat: <strong>{{ fat }} g</strong></p>
+<div class="goal-card">
+    <p>Calories: {{ calories }}</p>
+    <p>Protein: {{ protein }}</p>
+</div>
+
+<h2>Today's Consumption</h2>
+
+<div class="tracker">
+    <p>Calories: <span id="total-calories">0</span></p>
+    <p>Protein: <span id="total-protein">0</span></p>
+    <p>Remaining Protein: <span id="remaining-protein">{{ protein }}</span></p>
+    <p id="protein-status"></p>
+</div>
+
+<h2>Today's Diet Plan</h2>
+
+<div class="meals">
+
+    <div class="meal">
+        <h3>Breakfast</h3>
+        <div id="breakfast-items"></div>
+        <p id="breakfast-status"></p>
+        <button onclick="completeMeal('breakfast')">Complete</button>
     </div>
 
-    <h2>Today's Consumption</h2>
-
-    <div class="tracker">
-        <p>Calories: <span id="total-calories">0</span> / {{ calories }} kcal</p>
-        <p>Protein: <span id="total-protein">0</span> / {{ protein }} g</p>
-        <p>Remaining Protein: <span id="remaining-protein">{{ protein }}</span> g</p>
-        <p>Carbs: <span id="total-carbs">0</span> g</p>
-        <p>Fat: <span id="total-fat">0</span> g</p>
-        <p id="protein-status"></p>
+    <div class="meal">
+        <h3>Lunch</h3>
+        <div id="lunch-items"></div>
+        <p id="lunch-status"></p>
+        <button onclick="completeMeal('lunch')">Complete</button>
     </div>
 
-    <h2>Log Meals</h2>
-    <div class="meals">
-
-        <div class="meal">
-            <h3>Enter Your Meal</h3>
-            <div class="input-group">
-                <input type="text" placeholder="Enter food name" class="food-input" oninput="getSuggestions(this)">
-                <div class="suggestions"></div>
-            </div>
-            <label style="font-size:13px; color:#94a3b8;">Servings</label>
-            <input type="number" value="1" min="0.1" step="0.1" class="food-qty">
-            <button onclick="addFood(this)">Add Food</button>
-            <div class="meal-result"></div>
-        </div>
-
+    <div class="meal">
+        <h3>Dinner</h3>
+        <div id="dinner-items"></div>
+        <p id="dinner-status"></p>
+        <button onclick="completeMeal('dinner')">Complete</button>
     </div>
 
 </div>
 
-<!-- ======= NUTRIBOT ======= -->
+<h2>Add Extra Meals</h2>
 
-<div id="nutriToggle">🤖 NutriBot</div>
+<div class="meal">
 
-<div id="nutriWindow">
+    <input type="text" placeholder="Food" class="food-input" oninput="getSuggestions(this)">
+    <div class="suggestions"></div>
 
-    <div class="nutribot-header">
-        <span>🥗 NutriBot</span>
-        <button id="nutriClose">✕</button>
-    </div>
+    <input type="number" placeholder="Quantity" class="food-qty">
 
-    <div id="nutriMessages"></div>
+    <button onclick="addFood(this)">Add</button>
 
-    <div class="nutribot-input">
-        <input type="text" id="nutriInput" placeholder="Ask NutriBot...">
-        <button onclick="sendMessage()">➤</button>
-    </div>
+    <div class="meal-result"></div>
+
+</div>
 
 </div>
 
 <script src="{{ url_for('static', filename='script.js') }}"></script>
-
-<script>
-    setGoal("{{ protein }}")
-    const username = "{{ session['user']['name'] if session.get('user') else 'User' }}"
-</script>
 
 </body>
 </html>
