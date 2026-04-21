@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 from flask import Flask, render_template, request, jsonify, session 
-=======
 from flask import Flask, render_template, request, jsonify, session
->>>>>>> d27401a480c65169b1b9118eaf77ebe7d96996ef
 import pandas as pd
 import random  
 app = Flask(__name__)
