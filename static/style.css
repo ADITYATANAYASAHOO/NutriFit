@@ -10,8 +10,8 @@
 
 body {
     font-family: Arial, sans-serif;
-    background: #081226;
-    color: white;
+    background: #0b1120;
+    color: #ffffff;
     line-height: 1.6;
 }
 
@@ -21,8 +21,8 @@ body {
 ========================= */
 
 header {
-    background: #0b1220;
-    padding: 20px 50px;
+    background: #111827;
+    padding: 18px 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -32,37 +32,40 @@ header {
 }
 
 .logo {
-    font-size: 42px;
+    font-size: 40px;
     font-weight: 800;
-    background: linear-gradient(to right, #60a5fa, #f472b6, #f97316);
+    background: linear-gradient(to right, #60a5fa, #ec4899, #f97316);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
 
 /* =========================
-   NAVBAR BUTTONS
+   NAVBAR
 ========================= */
 
 nav {
     display: flex;
     gap: 12px;
+    align-items: center;
     flex-wrap: wrap;
 }
 
 .start-btn,
 .primary-btn {
-    text-decoration: none;
-    border: none;
     background: #2563eb;
     color: white;
-    padding: 12px 24px;
+    text-decoration: none;
+    border: none;
+    padding: 12px 22px;
     border-radius: 12px;
-    font-weight: 700;
     font-size: 15px;
+    font-weight: 700;
     cursor: pointer;
     transition: 0.25s ease;
-    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .start-btn:hover,
@@ -73,54 +76,107 @@ nav {
 
 
 /* =========================
-   MAIN DASHBOARD
+   LANDING PAGE
+========================= */
+
+.hero {
+    max-width: 900px;
+    margin: 100px auto;
+    text-align: center;
+    padding: 20px;
+}
+
+.hero h1 {
+    font-size: 54px;
+    margin-bottom: 20px;
+    font-weight: 800;
+}
+
+.hero p {
+    font-size: 20px;
+    color: #cbd5e1;
+    margin-bottom: 30px;
+}
+
+
+/* =========================
+   MAIN CONTAINERS
 ========================= */
 
 .dashboard,
 .form-container {
-    max-width: 1100px;
+    max-width: 1000px;
     margin: 40px auto;
     padding: 30px;
-    background: #111827;
-    border-radius: 24px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.25);
 }
 
 h2 {
-    font-size: 34px;
-    margin-bottom: 20px;
     text-align: center;
+    font-size: 32px;
+    margin-bottom: 20px;
 }
 
 h3 {
-    margin-bottom: 16px;
-    font-size: 24px;
+    font-size: 22px;
+    margin-bottom: 15px;
 }
 
 
 /* =========================
-   GOAL + TRACKER CARD
+   CARDS
 ========================= */
 
 .goal-card,
 .tracker,
-.meal {
+.meal,
+.form-box {
     background: #1f2937;
     border-radius: 18px;
     padding: 25px;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.18);
 }
 
 .goal-card p,
-.tracker p {
-    font-size: 18px;
-    margin-bottom: 10px;
+.tracker p,
+.meal p {
+    margin-bottom: 12px;
+    font-size: 16px;
 }
 
 
 /* =========================
-   MEALS SECTION
+   FORM INPUTS
+========================= */
+
+form {
+    width: 100%;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 12px;
+    background: #0f172a;
+    color: white;
+    font-size: 15px;
+    outline: none;
+}
+
+input::placeholder {
+    color: #94a3b8;
+}
+
+button {
+    border: none;
+}
+
+
+/* =========================
+   MEAL SECTION
 ========================= */
 
 .meals {
@@ -134,44 +190,18 @@ h3 {
     flex: 1;
 }
 
-.meal p {
-    margin-bottom: 12px;
-}
-
 label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
     cursor: pointer;
-    font-size: 16px;
 }
 
 input[type="checkbox"] {
-    margin-right: 8px;
+    width: auto;
+    margin: 0;
     transform: scale(1.1);
-}
-
-
-/* =========================
-   INPUTS
-========================= */
-
-input,
-select {
-    width: 100%;
-    background: #07142d;
-    color: white;
-    border: none;
-    outline: none;
-    padding: 16px;
-    border-radius: 12px;
-    font-size: 16px;
-    margin-bottom: 15px;
-}
-
-input::placeholder {
-    color: #94a3b8;
-}
-
-button {
-    border: none;
 }
 
 
@@ -184,22 +214,10 @@ button {
 }
 
 .food-item {
-    background: #07142d;
+    background: #0f172a;
     padding: 12px;
     border-radius: 12px;
     margin-bottom: 10px;
-}
-
-
-/* =========================
-   PROFILE PAGE
-========================= */
-
-.form-error {
-    background: #ef4444;
-    padding: 12px;
-    border-radius: 10px;
-    margin-bottom: 20px;
 }
 
 
@@ -208,7 +226,7 @@ button {
 ========================= */
 
 .suggestions {
-    background: #07142d;
+    background: #0f172a;
     border-radius: 10px;
     overflow: hidden;
     margin-top: 5px;
@@ -221,7 +239,27 @@ button {
 }
 
 .suggestions div:hover {
-    background: #0f1f3d;
+    background: #172554;
+}
+
+
+/* =========================
+   PROFILE ACTIONS
+========================= */
+
+.profile-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.form-error {
+    background: #ef4444;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 20px;
 }
 
 
@@ -238,7 +276,7 @@ button {
     }
 
     .logo {
-        font-size: 34px;
+        font-size: 32px;
         width: 100%;
     }
 
@@ -247,18 +285,31 @@ button {
         width: 100%;
     }
 
-    .start-btn,
-    .primary-btn {
-        padding: 10px 18px;
-        font-size: 14px;
+    .hero {
+        margin: 70px auto;
+        padding: 20px;
+    }
+
+    .hero h1 {
+        font-size: 36px;
+    }
+
+    .hero p {
+        font-size: 16px;
+    }
+
+    .dashboard,
+    .form-container {
+        padding: 20px;
+        margin: 20px auto;
     }
 
     h2 {
-        font-size: 28px;
+        font-size: 26px;
     }
 
     h3 {
-        font-size: 22px;
+        font-size: 20px;
     }
 
     .meals {
@@ -272,13 +323,24 @@ button {
     .goal-card,
     .tracker,
     .meal,
-    .form-container {
+    .form-box {
         padding: 20px;
+    }
+
+    .start-btn,
+    .primary-btn {
+        padding: 10px 16px;
+        font-size: 14px;
     }
 
     input,
     select {
         padding: 14px;
-        font-size: 15px;
+        font-size: 14px;
+    }
+
+    .profile-actions {
+        flex-direction: column;
+        align-items: stretch;
     }
 }

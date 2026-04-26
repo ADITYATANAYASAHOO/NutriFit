@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0f172a">
-    <meta name="description" content="NutriFit Profile Page">
-    <title>NutriFit — Profile</title>
+    <meta name="description" content="Your NutriFit Profile">
+    <title>NutriFit — My Profile</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
@@ -34,148 +34,74 @@
 
 <div class="form-container">
 
-    <h2>Your Profile</h2>
+    <h2>My Profile</h2>
 
-    {% if error %}
-        <div class="form-error">
-            {{ error }}
-        </div>
-    {% endif %}
-
-    <!-- Personal Details -->
-
-    <div class="goal-card">
+    <div class="form-box">
 
         <p>
             <strong>Name:</strong>
-            {{ session['user']['name'] if session.get('user') else 'User' }}
+            {{ session['user']['name'] }}
         </p>
 
         <p>
             <strong>Email:</strong>
-            {{ session['user']['email'] if session.get('user') else '-' }}
+            {{ session['user']['email'] }}
         </p>
 
         <p>
             <strong>Age:</strong>
-            {{ session.get('profile_data', {}).get('age', '-') }}
+            {{ profile_data.get('age', '-') }}
         </p>
 
         <p>
             <strong>Height:</strong>
-            {{ session.get('profile_data', {}).get('height', '-') }} cm
+            {{ profile_data.get('height', '-') }} cm
         </p>
 
         <p>
             <strong>Weight:</strong>
-            {{ session.get('profile_data', {}).get('weight', '-') }} kg
+            {{ profile_data.get('weight', '-') }} kg
         </p>
 
         <p>
             <strong>Gender:</strong>
-            {{ session.get('profile_data', {}).get('gender', '-') }}
+            {{ profile_data.get('gender', '-') }}
         </p>
 
         <p>
             <strong>Activity Level:</strong>
-            {% set activity = session.get('profile_data', {}).get('activity', '-') %}
-
-            {% if activity == 1.2 %}
-                Sedentary
-            {% elif activity == 1.375 %}
-                Light
-            {% elif activity == 1.55 %}
-                Moderate
-            {% elif activity == 1.725 %}
-                Active
-            {% elif activity == 1.9 %}
-                Very Active
-            {% else %}
-                -
-            {% endif %}
+            {{ profile_data.get('activity', '-') }}
         </p>
 
     </div>
 
-    <br>
+    <div class="profile-actions">
 
-    <!-- Edit Profile Form -->
-
-    <h2>Update Fitness Details</h2>
-
-    <form action="/calculate" method="POST">
-
-        <input
-            type="number"
-            name="age"
-            placeholder="Age"
-            min="1"
-            max="120"
-            value="{{ session.get('profile_data', {}).get('age', '') }}"
-            required
-        >
-
-        <input
-            type="number"
-            name="height"
-            placeholder="Height (cm)"
-            min="50"
-            max="280"
-            step="any"
-            value="{{ session.get('profile_data', {}).get('height', '') }}"
-            required
-        >
-
-        <input
-            type="number"
-            name="weight"
-            placeholder="Weight (kg)"
-            min="10"
-            max="500"
-            step="any"
-            value="{{ session.get('profile_data', {}).get('weight', '') }}"
-            required
-        >
-
-        <select name="gender" required>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-        </select>
-
-        <select name="activity" required>
-            <option value="1.2">Sedentary (No exercise)</option>
-            <option value="1.375">Light Activity</option>
-            <option value="1.55">Moderate (Gym 3–5 days/week)</option>
-            <option value="1.725">Active (Gym daily)</option>
-            <option value="1.9">Very Active (Athlete)</option>
-        </select>
-
-        <button type="submit" class="primary-btn">
+        <a href="/setup-profile" class="primary-btn">
             Update Profile
-        </button>
+        </a>
 
-    </form>
-
-    <br>
-
-    <!-- Account Actions -->
-
-    <a href="/logout"
-       class="start-btn"
-       style="background:#ef4444;">
-        Logout
-    </a>
-
-    <br><br>
-
-    <form action="/delete_account" method="POST">
-        <button
-            type="submit"
+        <a
+            href="/logout"
             class="start-btn"
-            style="background:black; color:white; border:none;">
-            Delete Account
-        </button>
-    </form>
+            style="background:#ef4444;"
+        >
+            Logout
+        </a>
+
+        <form action="/delete_account" method="POST">
+
+            <button
+                type="submit"
+                class="start-btn"
+                style="background:#111827;"
+            >
+                Delete Account
+            </button>
+
+        </form>
+
+    </div>
 
 </div>
 

@@ -37,9 +37,28 @@ data-protein="{{ protein }}">
 
     <h2>Your Daily Goals</h2>
 
-    <div class="goal-card">
-        <p>🔥 Calories: <strong>{{ calories }} kcal</strong></p>
-        <p>💪 Protein: <strong>{{ protein }} g</strong></p>
+    <div class="meals">
+
+        <div class="goal-card">
+            <p>🔥 Calories</p>
+            <h3>{{ calories }} kcal</h3>
+        </div>
+
+        <div class="goal-card">
+            <p>💪 Protein</p>
+            <h3>{{ protein }} g</h3>
+        </div>
+
+        <div class="goal-card">
+            <p>🌾 Carbs</p>
+            <h3>{{ carbs }} g</h3>
+        </div>
+
+        <div class="goal-card">
+            <p>🥑 Fat</p>
+            <h3>{{ fat }} g</h3>
+        </div>
+
     </div>
 
     <h2>Today's Consumption</h2>

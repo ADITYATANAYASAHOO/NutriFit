@@ -41,11 +41,23 @@ def register():
         "email": email
     }
 
-    return redirect("/profile")
+    return redirect("/setup-profile")
 
 
 # =========================
 # FITNESS PROFILE PAGE
+# =========================
+
+@app.route("/setup-profile")
+def setup_profile():
+    if "user" not in session:
+        return redirect("/account")
+
+    return render_template("setup_profile.html")
+
+
+# =========================
+# PROFILE PAGE
 # =========================
 
 @app.route("/profile")
@@ -53,11 +65,19 @@ def profile():
     if "user" not in session:
         return redirect("/account")
 
+    if "profile_data" not in session:
+        return redirect("/setup-profile")
+
     return render_template(
         "profile.html",
-        profile_data=session.get("profile_data", {})
+        profile_data=session.get("profile_data", {}),
+        goals=session.get("goals", {})
     )
 
+
+# =========================
+# CALCULATE GOALS
+# =========================
 
 @app.route("/calculate", methods=["POST"])
 def calculate():
@@ -73,7 +93,7 @@ def calculate():
 
     except (ValueError, KeyError):
         return render_template(
-            "profile.html",
+            "setup-profile.html",
             error="Please enter valid details."
         )
 
@@ -81,19 +101,19 @@ def calculate():
 
     if age <= 0 or age > 120:
         return render_template(
-            "profile.html",
+            "setup-profile.html",
             error="Invalid age"
         )
 
     if height <= 50 or height > 280:
         return render_template(
-            "profile.html",
+            "setup-profile.html",
             error="Invalid height"
         )
 
     if weight <= 10 or weight > 500:
         return render_template(
-            "profile.html",
+            "setup-profile.html",
             error="Invalid weight"
         )
 
