@@ -16,87 +16,225 @@ data-protein="{{ protein }}">
 <header>
     <div class="logo">NutriFit</div>
 
-    <nav style="display:flex; gap:12px;">
-        <span>
-            Hi, {{ session['user']['name'] if session.get('user') else 'User' }}
-        </span>
-        <a href="/" class="start-btn">Home</a>
-        <a href="/profile" class="start-btn">Edit Profile</a>
-        <a href="/logout" class="start-btn" style="background:red;">Logout</a>
+    <nav style="display:flex; gap:12px; align-items:center;">
+
+        <a href="/dashboard" class="start-btn">
+            Dashboard
+        </a>
+
+        <a href="/workout" class="start-btn">
+            Workout
+        </a>
+
+        <a href="/profile" class="start-btn">
+            Profile
+        </a>
+
     </nav>
 </header>
 
 <div class="dashboard">
 
-<h2>Your Daily Goals</h2>
+    <h2>Your Daily Goals</h2>
 
-<div class="goal-card">
-    <p>Calories: <strong>{{ calories }} kcal</strong></p>
-    <p>Protein: <strong>{{ protein }} g</strong></p>
-</div>
-
-<h2>Today's Consumption</h2>
-
-<div class="tracker">
-    <p>Calories: <span id="total-calories">0</span></p>
-    <p>Protein: <span id="total-protein">0</span></p>
-    <p>Remaining Protein: <span id="remaining-protein">{{ protein }}</span></p>
-    <p id="protein-status"></p>
-</div>
-
-<h2>Today's Diet Plan</h2>
-
-<div class="meals">
-
-    <div class="meal">
-        <h3>Breakfast</h3>
-        <div id="breakfast-items"></div>
-        <p id="breakfast-status"></p>
-        <button onclick="completeMeal('breakfast')">Complete</button>
+    <div class="goal-card">
+        <p>🔥 Calories: <strong>{{ calories }} kcal</strong></p>
+        <p>💪 Protein: <strong>{{ protein }} g</strong></p>
     </div>
 
-    <div class="meal">
-        <h3>Lunch</h3>
-        <div id="lunch-items"></div>
-        <p id="lunch-status"></p>
-        <button onclick="completeMeal('lunch')">Complete</button>
+    <h2>Today's Consumption</h2>
+
+    <div class="tracker">
+        <p>Calories: <span id="total-calories">0</span></p>
+        <p>Protein: <span id="total-protein">0</span></p>
+        <p>Carbs: <span id="total-carbs">0</span></p>
+        <p>Fat: <span id="total-fat">0</span></p>
+        <p>Remaining Protein: <span id="remaining-protein">{{ protein }}</span></p>
+        <p id="protein-status"></p>
     </div>
 
-    <div class="meal">
-        <h3>Dinner</h3>
-        <div id="dinner-items"></div>
-        <p id="dinner-status"></p>
-        <button onclick="completeMeal('dinner')">Complete</button>
+
+    <!-- ========================= -->
+    <!-- MY DIET PLAN + FOOD LOGGER -->
+    <!-- ========================= -->
+
+    <h2>My Diet Plan</h2>
+
+    <div class="meals" style="display:flex; gap:20px; align-items:flex-start;">
+
+        <!-- LEFT SIDE : MY DIET PLAN -->
+
+        <div class="meal" style="flex:1;">
+
+            <h3>Choose Your Plan</h3>
+
+            <div style="display:flex; gap:10px; margin-bottom:20px;">
+
+                <button onclick="showDietPlan('veg')" class="start-btn">
+                    Veg
+                </button>
+
+                <button onclick="showDietPlan('nonveg')" class="start-btn">
+                    Non-Veg
+                </button>
+
+            </div>
+
+
+            <!-- VEG PLAN -->
+
+            <div id="veg-plan">
+
+                <h3>🥬 Veg Diet Plan</h3>
+
+                <p>
+                    <label>
+                        <input type="checkbox">
+                        <strong>Breakfast:</strong>
+                        Smoothie + Whey
+                    </label>
+                </p>
+
+                <p>
+                    <label>
+                        <input type="checkbox">
+                        <strong>Mid Day Meal:</strong>
+                        2 Roti + Dal + Paneer 50g
+                    </label>
+                </p>
+
+                <p>
+                    <label>
+                        <input type="checkbox">
+                        <strong>Lunch:</strong>
+                        Rice + Curd + Dal + Paneer 100g
+                    </label>
+                </p>
+
+                <p>
+                    <label>
+                        <input type="checkbox">
+                        <strong>Pre Workout:</strong>
+                        1 Banana
+                    </label>
+                </p>
+
+                <p>
+                    <label>
+                        <input type="checkbox">
+                        <strong>Post Workout:</strong>
+                        Bread + Peanut Butter
+                    </label>
+                </p>
+
+                <p>
+                    <label>
+                        <input type="checkbox">
+                        <strong>Dinner:</strong>
+                        2 Roti + Curry + Paneer 50g
+                    </label>
+                </p>
+
+            </div>
+
+
+            <!-- NON VEG PLAN -->
+
+            <div id="nonveg-plan" style="display:none;">
+
+                <h3>🍗 Non-Veg Diet Plan</h3>
+
+                <p>
+                    <label>
+                        <input type="checkbox">
+                        <strong>Breakfast:</strong>
+                        Smoothie + Whey
+                    </label>
+                </p>
+
+                <p>
+                    <label>
+                        <input type="checkbox">
+                        <strong>Mid Day Meal:</strong>
+                        2 Roti + Dal + Chicken 100g
+                    </label>
+                </p>
+
+                <p>
+                    <label>
+                        <input type="checkbox">
+                        <strong>Lunch:</strong>
+                        Rice + Curd + Dal + Chicken 150g
+                    </label>
+                </p>
+
+                <p>
+                    <label>
+                        <input type="checkbox">
+                        <strong>Pre Workout:</strong>
+                        1 Banana
+                    </label>
+                </p>
+
+                <p>
+                    <label>
+                        <input type="checkbox">
+                        <strong>Post Workout:</strong>
+                        Bread + Peanut Butter
+                    </label>
+                </p>
+
+                <p>
+                    <label>
+                        <input type="checkbox">
+                        <strong>Dinner:</strong>
+                        2 Roti + Curry + Chicken 100g
+                    </label>
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="meal" style="flex:1;">
+
+            <h3>Food Logger</h3>
+
+            <input
+                type="text"
+                placeholder="Enter food name"
+                class="food-input"
+                oninput="getSuggestions(this)"
+            >
+
+            <div class="suggestions"></div>
+
+            <div style="display:flex; gap:10px; margin-top:10px;">
+
+                <input
+                    type="number"
+                    placeholder="Quantity"
+                    class="food-qty"
+                >
+
+                <select class="food-unit">
+                    <option value="g">g</option>
+                    <option value="ml">ml</option>
+                    <option value="piece">piece</option>
+                </select>
+
+            </div>
+
+            <button onclick="addFood(this)">
+                Add Food
+            </button>
+
+            <div class="meal-result"></div>
+
+        </div>
+
     </div>
-
-</div>
-
-<h2>Add Extra Meals</h2>
-
-<div class="meal">
-
-    <input type="text" placeholder="Food" class="food-input" oninput="getSuggestions(this)">
-    <div class="suggestions"></div>
-
-    <div style="display:flex; gap:10px; margin-top:10px;">
-
-        <input type="number" 
-               placeholder="Quantity (e.g. 100)" 
-               class="food-qty">
-    
-        <select class="food-unit">
-            <option value="g">g</option>
-            <option value="ml">ml</option>
-            <option value="piece">piece</option>
-        </select>
-    
-    </div>
-    
-    <button onclick="addFood(this)">Add</button>
-
-    <div class="meal-result"></div>
-
-</div>
 
 </div>
 

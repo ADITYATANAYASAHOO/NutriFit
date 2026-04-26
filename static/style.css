@@ -1,506 +1,284 @@
+/* =========================
+   GLOBAL RESET
+========================= */
+
 * {
-    box-sizing: border-box;
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 body {
     font-family: Arial, sans-serif;
-    background: #0f172a;
+    background: #081226;
     color: white;
-}
-
-/* HEADER */
-
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 40px;
-    background: #020617;
-}
-
-/* LOGO */
-
-.logo {
-    font-size: 36px;
-    font-weight: 800;
-    letter-spacing: 2px;
-    background: linear-gradient(45deg, #38bdf8, #f43f5e, #facc15);
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
-}
-
-/* BUTTONS */
-
-.start-btn {
-    padding: 10px 18px;
-    background: #38bdf8;
-    border: none;
-    color: white;
-    border-radius: 6px;
-    cursor: pointer;
-    text-decoration: none;
-    font-weight: bold;
-    transition: background 0.2s; 
-}
-
-.start-btn:hover {
-    background: #0ea5e9;
-}
-
-.primary-btn {
-    display: inline-block;
-    margin-top: 30px;
-    padding: 14px 28px;
-    background: #38bdf8;
-    border-radius: 8px;
-    font-size: 16px;
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    border: none;
-    cursor: pointer;
-    transition: background 0.2s; 
-}
-
-.primary-btn:hover {
-    background: #0ea5e9;
-}
-
-/* HERO */
-
-.hero {
-    text-align: center;
-    margin-top: 120px;
-    padding: 20px;
-}
-
-.hero h1 {
-    font-size: 42px;
-    margin-bottom: 20px;
-}
-
-.hero p {
-    font-size: 18px;
-    color: #cbd5e1;
-    max-width: 600px;
-    margin: auto;
     line-height: 1.6;
 }
 
-/* FORM */
 
-.form-container {
-    width: 420px;
-    margin: 80px auto;
-    text-align: center;
-    background: #1e293b;
-    padding: 40px;
-    border-radius: 12px;
+/* =========================
+   HEADER
+========================= */
+
+header {
+    background: #0b1220;
+    padding: 20px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
-.form-container h2 {
-    margin-bottom: 24px;
+.logo {
+    font-size: 42px;
+    font-weight: 800;
+    background: linear-gradient(to right, #60a5fa, #f472b6, #f97316);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-form input,
-form select {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
+
+/* =========================
+   NAVBAR BUTTONS
+========================= */
+
+nav {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.start-btn,
+.primary-btn {
+    text-decoration: none;
     border: none;
-    border-radius: 6px;
-    font-size: 15px;
-    background: #0f172a;
+    background: #2563eb;
     color: white;
-}
-
-form input::placeholder {
-    color: #64748b;
-}
-
-.form-error {
-    background: #450a0a;
-    color: #fca5a5;
-    padding: 10px 14px;
-    border-radius: 6px;
-    margin-bottom: 16px;
-    font-size: 14px;
-    text-align: left;
-}
-
-.form-success {
-    background: #052e16;
-    color: #86efac;
-    padding: 10px 14px;
-    border-radius: 6px;
-    margin-bottom: 16px;
-    font-size: 14px;
-    text-align: left;
-}
-
-/* DASHBOARD */
-
-.dashboard {
-    max-width: 900px;
-    margin: auto;
-    padding: 30px 20px;
-}
-
-.dashboard h2 {
-    font-size: 22px;
-    margin-bottom: 12px;
-    color: #38bdf8;
-}
-
-.goal-card {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
-    margin-bottom: 30px;
-}
-
-.goal-card p {
-    background: linear-gradient(145deg, #1e293b, #0f172a);
-    padding: 20px;
+    padding: 12px 24px;
     border-radius: 12px;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.25s ease;
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
+}
+
+.start-btn:hover,
+.primary-btn:hover {
+    background: #1d4ed8;
+    transform: translateY(-2px);
+}
+
+
+/* =========================
+   MAIN DASHBOARD
+========================= */
+
+.dashboard,
+.form-container {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 30px;
+    background: #111827;
+    border-radius: 24px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+}
+
+h2 {
+    font-size: 34px;
+    margin-bottom: 20px;
     text-align: center;
-    font-size: 14px;
-    color: #cbd5e1;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-    transition: transform 0.2s;
 }
 
-.goal-card p strong {
-    display: block;
-    font-size: 20px;
-    margin-top: 6px;
-    color: white;
+h3 {
+    margin-bottom: 16px;
+    font-size: 24px;
 }
 
-.goal-card p:hover {
-    transform: translateY(-5px);
+
+/* =========================
+   GOAL + TRACKER CARD
+========================= */
+
+.goal-card,
+.tracker,
+.meal {
+    background: #1f2937;
+    border-radius: 18px;
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.18);
 }
 
-.tracker {
-    background: #1e293b;
-    padding: 20px;
-    border-radius: 10px;
-    margin-bottom: 30px;
-}
-
+.goal-card p,
 .tracker p {
-    margin: 8px 0;
-    font-size: 15px;
+    font-size: 18px;
+    margin-bottom: 10px;
 }
 
-#protein-status {
-    margin-top: 12px;
-    font-weight: bold;
-    font-size: 15px;
-}
 
-/* MEALS */
+/* =========================
+   MEALS SECTION
+========================= */
 
 .meals {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
     gap: 20px;
+    align-items: flex-start;
+    margin-bottom: 30px;
 }
 
 .meal {
-    background: #1e293b;
-    padding: 20px;
-    border-radius: 10px;
+    flex: 1;
 }
 
-.meal h3 {
+.meal p {
     margin-bottom: 12px;
+}
+
+label {
+    cursor: pointer;
     font-size: 16px;
+}
+
+input[type="checkbox"] {
+    margin-right: 8px;
+    transform: scale(1.1);
+}
+
+
+/* =========================
+   INPUTS
+========================= */
+
+input,
+select {
+    width: 100%;
+    background: #07142d;
+    color: white;
+    border: none;
+    outline: none;
+    padding: 16px;
+    border-radius: 12px;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+input::placeholder {
     color: #94a3b8;
 }
 
-.meal button {
-    margin-top: 10px;
-    padding: 10px;
+button {
     border: none;
-    background: #38bdf8;
-    color: white;
-    border-radius: 6px;
-    cursor: pointer;
-    width: 100%;
-    font-weight: bold;
-    transition: background 0.2s;
 }
 
-.meal button:hover {
-    background: #0ea5e9;
+
+/* =========================
+   FOOD LOGGER
+========================= */
+
+.meal-result {
+    margin-top: 20px;
 }
 
 .food-item {
-    background: #0f172a;
-    padding: 10px;
-    margin-top: 10px;
-    border-radius: 6px;
-    font-size: 14px;
-    line-height: 1.6;
-    border-left: 3px solid #38bdf8; 
-}
-
-.food-not-found {
-    color: #f87171;
-    font-size: 13px;
-    margin-top: 8px;
-    padding: 6px 10px;
-    background: #1e293b;
-    border-radius: 6px;
-}
-
-/* INPUT GROUP (Autocomplete) */
-
-.input-group {
-    position: relative;
-    width: 100%;
-    margin-bottom: 5px;
-}
-
-.food-input {
-    width: 100%;
-    padding: 10px;
-    border-radius: 6px;
-    border: none;
-    background: #0f172a;
-    color: white;
-    font-size: 14px;
-}
-
-.food-qty {
-    width: 100%;
-    padding: 10px;
-    border-radius: 6px;
-    border: none;
+    background: #07142d;
+    padding: 12px;
+    border-radius: 12px;
     margin-bottom: 10px;
-    background: #0f172a;
-    color: white;
-    font-size: 14px;
 }
 
-/* SUGGESTIONS */
+
+/* =========================
+   PROFILE PAGE
+========================= */
+
+.form-error {
+    background: #ef4444;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+
+/* =========================
+   SUGGESTIONS
+========================= */
 
 .suggestions {
-    background: #1e293b;
-    position: absolute;
-    width: 100%;
-    top: 100%;
-    left: 0;
-    border-radius: 6px;
-    z-index: 10;
-    border: 1px solid #334155; 
+    background: #07142d;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 5px;
 }
 
 .suggestions div {
-    padding: 8px 12px;
+    padding: 12px;
     cursor: pointer;
-    font-size: 14px;
+    border-bottom: 1px solid #1e293b;
 }
 
 .suggestions div:hover {
-    background: #334155;
+    background: #0f1f3d;
 }
 
-/* ================= NUTRIBOT WINDOW ================= */
 
-#nutriToggle {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    background: #16a34a;
-    color: white;
-    padding: 12px 20px;
-    border-radius: 25px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 15px;
-    z-index: 100;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-    transition: background 0.2s;
-}
-
-#nutriToggle:hover {
-    background: #15803d;
-}
-
-#nutriWindow {
-    display: none;
-    position: fixed;
-    bottom: 80px;
-    right: 24px;
-    width: 320px;
-    max-height: 460px;
-    background: #1e293b;
-    border-radius: 14px;
-    flex-direction: column;
-    overflow: hidden;
-    z-index: 100;
-    border: 1px solid #334155;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-}
-
-.nutribot-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 14px 16px;
-    background: #0f172a;
-    border-bottom: 1px solid #334155;
-}
-
-.nutribot-header span {
-    font-weight: bold;
-    font-size: 15px;
-}
-
-#nutriClose {
-    cursor: pointer;
-    font-size: 18px;
-    color: #94a3b8;
-    background: none;
-    border: none;
-    color: white;
-    line-height: 1;
-}
-
-#nutriMessages {
-    flex: 1;
-    overflow-y: auto;
-    padding: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.chat-msg {
-    display: flex;
-    align-items: flex-end;
-    gap: 8px;
-}
-
-.chat-msg.user {
-    justify-content: flex-end;
-}
-
-.chat-avatar {
-    font-size: 20px;
-    flex-shrink: 0;
-}
-
-.chat-bubble {
-    padding: 10px 14px;
-    border-radius: 12px;
-    font-size: 14px;
-    line-height: 1.5;
-    max-width: 220px;
-    white-space: pre-wrap;
-}
-
-.chat-msg.bot .chat-bubble {
-    background: #334155;
-    color: white;
-    border-bottom-left-radius: 4px;
-}
-
-.chat-msg.user .chat-bubble {
-    background: #38bdf8;
-    color: white;
-    border-bottom-right-radius: 4px;
-}
-
-.nutribot-input {
-    display: flex;
-    gap: 8px;
-    padding: 12px;
-    border-top: 1px solid #334155;
-    background: #0f172a;
-}
-
-.nutribot-input input {
-    flex: 1;
-    padding: 9px 12px;
-    border-radius: 8px;
-    border: none;
-    background: #1e293b;
-    color: white;
-    font-size: 14px;
-}
-
-.nutribot-input input::placeholder {
-    color: #64748b;
-}
-
-.nutribot-input button {
-    padding: 9px 14px;
-    background: #22c55e;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 15px;
-    transition: background 0.2s;
-}
-
-.nutribot-input button:hover {
-    background: #16a34a;
-}
-
-/* ================= MOBILE RESPONSIVE ================= */
+/* =========================
+   MOBILE RESPONSIVE
+========================= */
 
 @media (max-width: 768px) {
 
     header {
-        flex-direction: column;
-        gap: 10px;
-        padding: 15px;
+        padding: 20px;
+        justify-content: center;
+        text-align: center;
     }
 
-    .form-container {
-        width: 90%;
-        margin: 40px auto;
-        padding: 24px;
-    }
-
-    .dashboard {
-        padding: 15px;
-    }
-
-    .goal-card {
-        grid-template-columns: 1fr;
-    }
-
-    .meals {
-        grid-template-columns: 1fr;
-    }
-
-    .food-input,
-    .food-qty {
+    .logo {
+        font-size: 34px;
         width: 100%;
     }
 
-    .meal button {
+    nav {
+        justify-content: center;
         width: 100%;
     }
 
-    #nutriToggle {
-        bottom: 15px;
-        right: 15px;
-        padding: 10px 14px;
+    .start-btn,
+    .primary-btn {
+        padding: 10px 18px;
         font-size: 14px;
     }
 
-    #nutriWindow {
-        width: 92%;
-        right: 4%;
-        bottom: 70px;
+    h2 {
+        font-size: 28px;
+    }
+
+    h3 {
+        font-size: 22px;
+    }
+
+    .meals {
+        flex-direction: column;
+    }
+
+    .meal {
+        width: 100%;
+    }
+
+    .goal-card,
+    .tracker,
+    .meal,
+    .form-container {
+        padding: 20px;
+    }
+
+    input,
+    select {
+        padding: 14px;
+        font-size: 15px;
     }
 }

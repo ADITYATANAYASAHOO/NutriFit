@@ -12,7 +12,6 @@ let meals = []
 
 window.goalReached = false
 
-
 // ===== LOAD & SAVE STATE =====
 
 function loadState() {
@@ -53,7 +52,6 @@ function saveState() {
     }))
 }
 
-
 // ===== DASHBOARD UPDATE =====
 
 function updateDashboard() {
@@ -83,7 +81,6 @@ function updateDashboard() {
     }
 }
 
-
 // ===== ADD FOOD =====
 
 function addFood(button) {
@@ -93,13 +90,46 @@ function addFood(button) {
     const qtyInput = container.querySelector(".food-qty")
 
     const food = input.value.trim()
-    const qty = qtyInput.value ? parseFloat(qtyInput.value) : 1
+
+    const qtyValue = qtyInput.value
+        ? parseFloat(qtyInput.value)
+        : 1
+
+    const unit = container.querySelector(".food-unit").value
+
+    let qty = qtyValue
+
+    // Convert piece → grams
+    if (unit === "piece") {
+        const conversions = {
+            "roti": 40,
+            "egg": 50,
+            "bread": 25,
+            "banana": 120
+        }
+
+        const lowerFood = food.toLowerCase()
+
+        for (let key in conversions) {
+            if (lowerFood.includes(key)) {
+                qty = qtyValue * conversions[key]
+                break
+            }
+        }
+    }
+
+    // ml → grams (approx)
+    if (unit === "ml") {
+        qty = qtyValue
+    }
 
     if (!food) return
 
     fetch("/get_food_data", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+            "Content-Type": "application/json"
+        },
         body: JSON.stringify({
             food: food,
             quantity: qty
@@ -126,14 +156,16 @@ function addFood(button) {
         const resultDiv = container.querySelector(".meal-result")
 
         resultDiv.innerHTML += `
-            <p>${food} (${qty}) → ${data.protein}g protein</p>
+            <p>
+                ${food} (${qtyValue} ${unit})
+                → ${data.protein}g protein
+            </p>
         `
 
         input.value = ""
         qtyInput.value = ""
     })
 }
-
 
 // ===== AUTOCOMPLETE =====
 
@@ -166,7 +198,6 @@ function getSuggestions(input) {
         })
     })
 }
-
 
 // ===== NUTRIBOT =====
 
@@ -223,8 +254,11 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     }
 
+    document.querySelectorAll("#veg-plan input, #nonveg-plan input")
+    .forEach(box => {
+        box.addEventListener("change", updateDietPlanMacros)
+    })
 })
-
 
 // ===== SEND MESSAGE =====
 
@@ -265,4 +299,109 @@ function sendMessage() {
     })
 
     input.value = ""
+}
+
+function showDietPlan(type) {
+    const vegPlan = document.getElementById("veg-plan")
+    const nonVegPlan = document.getElementById("nonveg-plan")
+
+    // Reset all checkboxes when switching plan
+    document.querySelectorAll("#veg-plan input, #nonveg-plan input")
+        .forEach(box => box.checked = false)
+
+    // Reset dashboard values
+    totalCalories = 0
+    totalProtein = 0
+    totalCarbs = 0
+    totalFat = 0
+
+    meals = []
+    window.goalReached = false
+
+    updateDashboard()
+    saveState()
+
+    if (type === "veg") {
+        vegPlan.style.display = "block"
+        nonVegPlan.style.display = "none"
+    } else {
+        vegPlan.style.display = "none"
+        nonVegPlan.style.display = "block"
+    }
+}
+
+function updateDietPlanMacros() {
+    let calories = 0
+    let protein = 0
+    let carbs = 0
+    let fat = 0
+
+    document.querySelectorAll("#veg-plan input:checked, #nonveg-plan input:checked")
+        .forEach(box => {
+            const text = box.parentElement.innerText.toLowerCase()
+
+            if (text.includes("smoothie")) {
+                calories += 400
+                protein += 30
+                carbs += 35
+                fat += 12
+            }
+
+            if (text.includes("paneer 50g")) {
+                calories += 150
+                protein += 9
+                fat += 10
+            }
+
+            if (text.includes("paneer 100g")) {
+                calories += 300
+                protein += 18
+                fat += 20
+            }
+
+            if (text.includes("chicken 100g")) {
+                calories += 165
+                protein += 31
+                fat += 4
+            }
+
+            if (text.includes("chicken 150g")) {
+                calories += 250
+                protein += 45
+                fat += 6
+            }
+
+            if (text.includes("banana")) {
+                calories += 100
+                protein += 1
+                carbs += 27
+            }
+
+            if (text.includes("bread + peanut butter")) {
+                calories += 300
+                protein += 12
+                carbs += 25
+                fat += 14
+            }
+
+            if (text.includes("2 roti")) {
+                calories += 200
+                protein += 6
+                carbs += 35
+            }
+
+            if (text.includes("rice")) {
+                calories += 200
+                protein += 4
+                carbs += 45
+            }
+        })
+
+    totalCalories = calories
+    totalProtein = protein
+    totalCarbs = carbs
+    totalFat = fat
+
+    updateDashboard()
+    saveState()
 }
