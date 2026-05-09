@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, session, redirect 
+from flask import Flask, render_template, request, jsonify, session, redirect
 import pandas as pd
 import random
 
@@ -34,7 +34,10 @@ def register():
     password = request.form.get("password", "").strip()
 
     if not name or not email or not password:
-        return render_template("account.html", error="All fields are required.")
+        return render_template(
+            "account.html",
+            error="All fields are required."
+        )
 
     session["user"] = {
         "name": name,
@@ -45,7 +48,7 @@ def register():
 
 
 # =========================
-# FITNESS PROFILE PAGE
+# SETUP FITNESS PROFILE PAGE
 # =========================
 
 @app.route("/setup-profile")
@@ -57,7 +60,7 @@ def setup_profile():
 
 
 # =========================
-# PROFILE PAGE
+# PROFILE PAGE (VIEW ONLY)
 # =========================
 
 @app.route("/profile")
@@ -93,7 +96,7 @@ def calculate():
 
     except (ValueError, KeyError):
         return render_template(
-            "setup-profile.html",
+            "setup_profile.html",
             error="Please enter valid details."
         )
 
@@ -101,19 +104,19 @@ def calculate():
 
     if age <= 0 or age > 120:
         return render_template(
-            "setup-profile.html",
+            "setup_profile.html",
             error="Invalid age"
         )
 
     if height <= 50 or height > 280:
         return render_template(
-            "setup-profile.html",
+            "setup_profile.html",
             error="Invalid height"
         )
 
     if weight <= 10 or weight > 500:
         return render_template(
-            "setup-profile.html",
+            "setup_profile.html",
             error="Invalid weight"
         )
 
@@ -126,34 +129,65 @@ def calculate():
 
     maintenance_calories = bmr * activity
 
+    goal = request.form["goal"]
+
+    if goal == "cut":
+        calories = maintenance_calories * 0.80   # 20% deficit
+
+    elif goal == "lean_bulk":
+        calories = maintenance_calories * 1.08   # slight surplus
+
+    elif goal == "bulk":
+        calories = maintenance_calories * 1.15   # higher surplus
+
+    elif goal == "recomp":
+        calories = maintenance_calories * 0.92   # slight deficit
+
+    else:
+        calories = maintenance_calories
+
     # Macro Goals
 
     protein_goal = weight * 2
     fat_goal = weight * 0.8
-    carbs_goal = (
-        maintenance_calories
-        - (protein_goal * 4 + fat_goal * 9)
-    ) / 4
+    carbs_goal = (calories - (protein_goal * 4 + fat_goal * 9)) / 4
 
     goals = {
-        "calories": round(maintenance_calories),
+        "calories": round(calories),
         "protein": round(protein_goal),
         "carbs": round(carbs_goal),
-        "fat": round(fat_goal)
+        "fat": round(fat_goal),
+        "goal": goal
     }
 
-    # Save dashboard goals
+    # Save Dashboard Goals
 
     session["goals"] = goals
 
-    # Save profile details
+    # Save Profile Details
+    activity_map = {
+        1.2: "Sedentary (No exercise)",
+        1.375: "Light Activity",
+        1.55: "Moderate (Gym 3–5 days/week)",
+        1.725: "Active (Daily Workout)",
+        1.9: "Very Active (Athlete)"
+    }
+
+    goal_map = {
+        "cut": "Fat Loss",
+        "lean_bulk": "Lean Bulk",
+        "bulk": "Muscle Gain",
+        "recomp": "Body Recomposition",
+        "maintain": "Maintenance"
+    }
 
     session["profile_data"] = {
-        "age": int(age),
-        "height": round(height, 1),
-        "weight": round(weight, 1),
-        "gender": gender.capitalize(),
-        "activity": activity
+        "age": age,
+        "height": height,
+        "weight": weight,
+        "gender": gender,
+        "activity": activity_map.get(activity, "Not Set"),
+        "goal": goal_map.get(goal, goal)
     }
 
     session.modified = True
@@ -173,9 +207,16 @@ def dashboard():
     goals = session.get("goals")
 
     if not goals:
-        return render_template("profile.html", error="Set profile first")
+        return redirect("/setup-profile")
 
-    return render_template("dashboard.html", **goals)
+    return render_template(
+    "dashboard.html",
+    calories=goals["calories"],
+    protein=goals["protein"],
+    carbs=goals["carbs"],
+    fat=goals["fat"],
+    goal=goals["goal"]
+)
 
 
 # =========================
@@ -201,21 +242,36 @@ def get_food_data():
     food_text = data.get("food", "").lower()
 
     if not food_text:
-        return jsonify({"calories": 0, "protein": 0, "carbs": 0, "fat": 0})
+        return jsonify({
+            "calories": 0,
+            "protein": 0,
+            "carbs": 0,
+            "fat": 0
+        })
 
     try:
         qty = float(data.get("quantity", 1))
         if qty <= 0:
             qty = 1
+
     except ValueError:
         qty = 1
 
     match = foods[
-        foods["food"].str.lower().str.contains(food_text, na=False, regex=False)
+        foods["food"].str.lower().str.contains(
+            food_text,
+            na=False,
+            regex=False
+        )
     ]
 
     if match.empty:
-        return jsonify({"calories": 0, "protein": 0, "carbs": 0, "fat": 0})
+        return jsonify({
+            "calories": 0,
+            "protein": 0,
+            "carbs": 0,
+            "fat": 0
+        })
 
     row = match.iloc[0]
 
@@ -243,7 +299,7 @@ def suggest_food():
 
 
 # =========================
-# DELETE / LOGOUT
+# DELETE ACCOUNT / LOGOUT
 # =========================
 
 @app.route("/delete_account", methods=["POST"])
@@ -265,7 +321,9 @@ def logout():
 @app.route("/chat", methods=["POST"])
 def chat():
     if "user" not in session:
-        return jsonify({"reply": "Please login first."})
+        return jsonify({
+            "reply": "Please login first."
+        })
 
     data = request.get_json()
 
@@ -287,11 +345,40 @@ def chat():
     else:
         reply = "Ask me about protein or diet."
 
-    return jsonify({"reply": reply})
+    return jsonify({
+        "reply": reply
+    })
+
+@app.route("/dev")
+def dev():
+
+    session["user"] = {
+        "name": "Aditya",
+        "email": "test@nutrifit.com"
+    }
+
+    session["profile_data"] = {
+        "age": 21,
+        "height": 175,
+        "weight": 74,
+        "gender": "male",
+        "activity": "Moderate (Gym 3–5 days/week)",
+        "goal": "Body Recomposition"
+    }
+
+    session["goals"] = {
+        "calories": 2300,
+        "protein": 140,
+        "carbs": 250,
+        "fat": 70,
+        "goal": "recomp"
+    }
+
+    return redirect("/dashboard")
 
 
 # =========================
-# RUN
+# RUN APP
 # =========================
 
 if __name__ == "__main__":

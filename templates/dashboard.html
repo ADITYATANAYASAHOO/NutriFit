@@ -17,91 +17,95 @@ data-protein="{{ protein }}">
     <div class="logo">NutriFit</div>
 
     <nav style="display:flex; gap:12px; align-items:center;">
-
-        <a href="/dashboard" class="start-btn">
-            Dashboard
-        </a>
-
-        <a href="/workout" class="start-btn">
-            Workout
-        </a>
-
-        <a href="/profile" class="start-btn">
-            Profile
-        </a>
-
+        <a href="/dashboard" class="start-btn">Dashboard</a>
+        <a href="/workout" class="start-btn">Workout</a>
+        <a href="/profile" class="start-btn">Profile</a>
     </nav>
 </header>
 
 <div class="dashboard">
 
-    <h2>Your Daily Goals</h2>
+    <!-- GOAL -->
+    <h2>
+        Goal:
+        {% if goal == "cut" %}
+            Fat Loss 🔥
+        {% elif goal == "lean_bulk" %}
+            Lean Bulk 💪
+        {% elif goal == "bulk" %}
+            Muscle Gain 🚀
+        {% elif goal == "recomp" %}
+            Body Recomposition ⚡
+        {% else %}
+            Maintenance ⚖️
+        {% endif %}
+    </h2>
 
+    <!-- DAILY TARGET + TRACKER -->
+    <div class="stats-section">
+
+        <!-- DAILY TARGET -->
+        <div>
+            <h3 class="section-subheading">Daily Target</h3>
+
+            <div class="goal-grid">
+
+                <div class="goal-card">
+                    <h3>🔥 Calories</h3>
+                    <p>{{ calories }} kcal</p>
+                </div>
+
+                <div class="goal-card">
+                    <h3>💪 Protein</h3>
+                    <p>{{ protein }} g</p>
+                </div>
+
+                <div class="goal-card">
+                    <h3>🌾 Carbs</h3>
+                    <p>{{ carbs }} g</p>
+                </div>
+
+                <div class="goal-card">
+                    <h3>🥑 Fat</h3>
+                    <p>{{ fat }} g</p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- TODAY'S CONSUMPTION -->
+        <div>
+            <h3 class="section-subheading">Today's Consumption</h3>
+
+            <div class="tracker">
+                <p>Calories: <span id="total-calories">0</span> / {{ calories }} kcal</p>
+                <p>Protein: <span id="total-protein">0</span> / {{ protein }} g</p>
+                <p>Carbs: <span id="total-carbs">0</span> / {{ carbs }} g</p>
+                <p>Fat: <span id="total-fat">0</span> / {{ fat }} g</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- DIET + FOOD LOGGER -->
     <div class="meals">
 
-        <div class="goal-card">
-            <p>🔥 Calories</p>
-            <h3>{{ calories }} kcal</h3>
-        </div>
+        <!-- DIET PLAN -->
+        <div class="meal">
 
-        <div class="goal-card">
-            <p>💪 Protein</p>
-            <h3>{{ protein }} g</h3>
-        </div>
+            <h3>Diet Plan</h3>
 
-        <div class="goal-card">
-            <p>🌾 Carbs</p>
-            <h3>{{ carbs }} g</h3>
-        </div>
-
-        <div class="goal-card">
-            <p>🥑 Fat</p>
-            <h3>{{ fat }} g</h3>
-        </div>
-
-    </div>
-
-    <h2>Today's Consumption</h2>
-
-    <div class="tracker">
-        <p>Calories: <span id="total-calories">0</span></p>
-        <p>Protein: <span id="total-protein">0</span></p>
-        <p>Carbs: <span id="total-carbs">0</span></p>
-        <p>Fat: <span id="total-fat">0</span></p>
-        <p>Remaining Protein: <span id="remaining-protein">{{ protein }}</span></p>
-        <p id="protein-status"></p>
-    </div>
-
-
-    <!-- ========================= -->
-    <!-- MY DIET PLAN + FOOD LOGGER -->
-    <!-- ========================= -->
-
-    <h2>My Diet Plan</h2>
-
-    <div class="meals" style="display:flex; gap:20px; align-items:flex-start;">
-
-        <!-- LEFT SIDE : MY DIET PLAN -->
-
-        <div class="meal" style="flex:1;">
-
-            <h3>Choose Your Plan</h3>
-
-            <div style="display:flex; gap:10px; margin-bottom:20px;">
-
-                <button onclick="showDietPlan('veg')" class="start-btn">
+            <div class="diet-toggle">
+                <button type="button" onclick="showDietPlan('veg')" class="veg-btn">
                     Veg
                 </button>
 
-                <button onclick="showDietPlan('nonveg')" class="start-btn">
-                    Non-Veg
+                <button type="button" onclick="showDietPlan('nonveg')" class="nonveg-btn">
+                    Non-<br>Veg
                 </button>
-
             </div>
 
-
-            <!-- VEG PLAN -->
-
+            <!-- VEG -->
             <div id="veg-plan">
 
                 <h3>🥬 Veg Diet Plan</h3>
@@ -156,9 +160,7 @@ data-protein="{{ protein }}">
 
             </div>
 
-
-            <!-- NON VEG PLAN -->
-
+            <!-- NON VEG -->
             <div id="nonveg-plan" style="display:none;">
 
                 <h3>🍗 Non-Veg Diet Plan</h3>
@@ -215,8 +217,8 @@ data-protein="{{ protein }}">
 
         </div>
 
-
-        <div class="meal" style="flex:1;">
+        <!-- FOOD LOGGER -->
+        <div class="meal">
 
             <h3>Food Logger</h3>
 
@@ -229,8 +231,7 @@ data-protein="{{ protein }}">
 
             <div class="suggestions"></div>
 
-            <div style="display:flex; gap:10px; margin-top:10px;">
-
+            <div class="quantity-row">
                 <input
                     type="number"
                     placeholder="Quantity"
@@ -242,10 +243,9 @@ data-protein="{{ protein }}">
                     <option value="ml">ml</option>
                     <option value="piece">piece</option>
                 </select>
-
             </div>
 
-            <button onclick="addFood(this)">
+            <button onclick="addFood(this)" class="add-food-btn">
                 Add Food
             </button>
 

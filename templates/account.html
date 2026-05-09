@@ -17,25 +17,43 @@
 
 <div class="form-container">
 
-    <h2>Create Your NutriFit Account</h2>
+    <h2>Create Your Account</h2>
+
     {% if error %}
-    <div class="form-error">{{ error }}</div>
+        <div class="form-error">
+            {{ error }}
+        </div>
     {% endif %}
-    <form action="/register" method="post">
 
-        <input type="text" name="name" placeholder="Full Name" required>
+    <form action="/register" method="POST">
 
-        <input type="email" name="email" placeholder="Email" required>
+        <input
+            type="text"
+            name="name"
+            placeholder="Full Name"
+            required
+        >
 
-        <input type="password" name="password" placeholder="Password" required minlength="6">
+        <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            required
+        >
 
-        <button type="submit" class="primary-btn">Create Account</button>
+        <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            required
+        >
 
-    </form>
+        <div class="account-footer">
 
-    <p style="margin-top: 16px; font-size: 14px; color: #64748b;">
-        Already tracking? <a href="/profile" style="color: #38bdf8;">Set your profile</a>
-    </p>
+            <button type="submit" class="primary-btn">
+                Create Account
+            </button>        
+        </div>
 
 </div>
 

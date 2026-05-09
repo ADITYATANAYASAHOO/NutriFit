@@ -30,6 +30,7 @@
         </a>
 
     </nav>
+
 </header>
 
 <div class="form-container">
@@ -73,6 +74,8 @@
             {{ profile_data.get('activity', '-') }}
         </p>
 
+        <p><strong>Goal:</strong> {{ profile_data.goal }}</p>
+
     </div>
 
     <div class="profile-actions">
@@ -80,27 +83,17 @@
         <a href="/setup-profile" class="primary-btn">
             Update Profile
         </a>
-
-        <a
-            href="/logout"
-            class="start-btn"
-            style="background:#ef4444;"
-        >
+    
+        <a href="/logout" class="primary-btn">
             Logout
         </a>
-
-        <form action="/delete_account" method="POST">
-
-            <button
-                type="submit"
-                class="start-btn"
-                style="background:#111827;"
-            >
+    
+        <form action="/delete_account" method="POST" class="inline-form"></form>
+            <button type="submit" class="primary-btn">
                 Delete Account
             </button>
-
         </form>
-
+    
     </div>
 
 </div>

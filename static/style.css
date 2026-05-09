@@ -36,7 +36,8 @@ header {
     font-weight: 800;
     background: linear-gradient(to right, #60a5fa, #ec4899, #f97316);
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
 }
 
 
@@ -53,25 +54,27 @@ nav {
 
 .start-btn,
 .primary-btn {
-    background: #2563eb;
+    background: linear-gradient(135deg, #3b82f6, #6366f1);
     color: white;
     text-decoration: none;
     border: none;
-    padding: 12px 22px;
-    border-radius: 12px;
+    padding: 12px 24px;
+    border-radius: 14px;
     font-size: 15px;
     font-weight: 700;
     cursor: pointer;
-    transition: 0.25s ease;
+
     display: inline-flex;
     align-items: center;
     justify-content: center;
+
+    transition: all 0.25s ease;
 }
 
 .start-btn:hover,
 .primary-btn:hover {
-    background: #1d4ed8;
-    transform: translateY(-2px);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(59,130,246,0.4);
 }
 
 
@@ -100,12 +103,26 @@ nav {
 
 
 /* =========================
-   MAIN CONTAINERS
+   FORM CENTER GLASS STYLE
 ========================= */
 
-.dashboard,
 .form-container {
-    max-width: 1000px;
+    max-width: 650px;
+    margin: 60px auto;
+    padding: 40px;
+    background: rgba(31, 41, 55, 0.9);
+    border-radius: 24px;
+    backdrop-filter: blur(14px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+}
+
+
+/* =========================
+   DASHBOARD
+========================= */
+
+.dashboard {
+    max-width: 1200px;
     margin: 40px auto;
     padding: 30px;
 }
@@ -113,35 +130,127 @@ nav {
 h2 {
     text-align: center;
     font-size: 32px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 h3 {
-    font-size: 22px;
+    font-size: 24px;
     margin-bottom: 15px;
+}
+
+.goal-name {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 24px;
+    color: white;
+}
+
+.section-subheading {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #e2e8f0;
 }
 
 
 /* =========================
-   CARDS
+   GOAL CARDS
 ========================= */
 
-.goal-card,
+.stats-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    align-items: start;
+    margin-top: 30px;
+    margin-bottom: 50px;
+}
+
+.goal-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 260px);
+    gap: 25px;
+    justify-content: center;
+}
+
+.goal-card {
+    flex: 1;
+    min-width: 180px;
+    max-width: 300px;
+    min-height: 130px;
+    background: #1f2937;
+    border-radius: 22px;
+    padding: 18px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.22);
+    text-align: center;
+    transition: 0.25s ease;
+}
+
+.goal-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 18px 40px rgba(0,0,0,0.3);
+}
+
+.goal-card h3 {
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+
+.goal-card p {
+    font-size: 22px;
+    font-weight: 700;
+}
+
+
+/* =========================
+   TRACKER + MEAL + PROFILE BOX
+========================= */
+
+.meals {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 35px;
+    align-items: start;
+}
+
+.diet-toggle {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
 .tracker,
 .meal,
 .form-box {
+    flex: 1;
     background: #1f2937;
-    border-radius: 18px;
-    padding: 25px;
-    margin-bottom: 25px;
+    border-radius: 20px;
+    padding: 28px;
+    margin-bottom: 30px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.18);
 }
 
-.goal-card p,
-.tracker p,
+.tracker {
+    width: 100%;
+    border-radius: 22px;
+    padding: 30px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.tracker p {
+    font-size: 20px;
+    margin-bottom: 16px;
+}
+
 .meal p {
-    margin-bottom: 12px;
-    font-size: 16px;
+    font-size: 18px;
+    margin-bottom: 14px;
 }
 
 
@@ -149,7 +258,7 @@ h3 {
    FORM INPUTS
 ========================= */
 
-form {
+form:not(.inline-form) {
     width: 100%;
 }
 
@@ -176,38 +285,29 @@ button {
 
 
 /* =========================
-   MEAL SECTION
+   FOOD LOGGER
 ========================= */
 
-.meals {
+.quantity-row {
     display: flex;
-    gap: 20px;
-    align-items: flex-start;
-    margin-bottom: 30px;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 20px;
 }
 
-.meal {
+.quantity-row .food-qty {
+    flex: 2;
+}
+
+.quantity-row .food-unit {
     flex: 1;
 }
 
-label {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 12px;
-    cursor: pointer;
-}
-
-input[type="checkbox"] {
+.quantity-row input,
+.quantity-row select {
     width: auto;
-    margin: 0;
-    transform: scale(1.1);
+    margin-bottom: 0;
 }
-
-
-/* =========================
-   FOOD LOGGER
-========================= */
 
 .meal-result {
     margin-top: 20px;
@@ -222,24 +322,21 @@ input[type="checkbox"] {
 
 
 /* =========================
-   SUGGESTIONS
+   CHECKBOX LABELS
 ========================= */
 
-.suggestions {
-    background: #0f172a;
-    border-radius: 10px;
-    overflow: hidden;
-    margin-top: 5px;
-}
-
-.suggestions div {
-    padding: 12px;
+label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
     cursor: pointer;
-    border-bottom: 1px solid #1e293b;
 }
 
-.suggestions div:hover {
-    background: #172554;
+input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+    transform: scale(1.1);
 }
 
 
@@ -249,11 +346,89 @@ input[type="checkbox"] {
 
 .profile-actions {
     display: flex;
-    gap: 15px;
     justify-content: center;
+    gap: 16px;
     flex-wrap: wrap;
-    margin-top: 20px;
+    margin-top: 30px;
 }
+
+.veg-btn,
+.nonveg-btn {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    backdrop-filter: blur(10px);
+
+    color: white;
+    appearance: none;
+    outline: none;
+    cursor: pointer;
+
+    width: 100px;
+    height: 70px;
+    padding: 10px 20px;
+
+    border-radius: 999px;
+
+    font-size: 18px;
+    font-weight: 700;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    text-align: center;
+    line-height: 1.2;
+    gap: 6px;
+
+    transition: all 0.25s ease;
+}
+
+.veg-btn:hover,
+.nonveg-btn:hover {
+    transform: translateY(-3px);
+    background: rgba(255,255,255,0.10);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+}
+
+.add-food-btn {
+    background: rgba(255,255,255,0.06);
+    color: white;
+    border: none;
+    appearance: none;
+    outline: none;
+    cursor: pointer;
+
+    min-width: 120px;
+    height: 40px;
+    padding: 10px 20px;
+
+    border-radius: 999px;
+
+    font-size: 18px;
+    font-weight: 700;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: all 0.25s ease;
+}
+
+.inline-form {
+    width: auto;
+    display: inline-flex;
+    margin: 0;
+}
+
+.profile-actions .primary-btn {
+    min-width: 150px;
+}
+
+
+/* =========================
+   ERRORS
+========================= */
 
 .form-error {
     background: #ef4444;
@@ -305,22 +480,30 @@ input[type="checkbox"] {
     }
 
     h2 {
-        font-size: 26px;
+        font-size: 28px;
     }
 
     h3 {
         font-size: 20px;
     }
 
-    .meals {
-        flex-direction: column;
+    .stats-section {
+        grid-template-columns: 1fr;
+    }
+    
+    .goal-grid {
+        grid-template-columns: 1fr;
     }
 
-    .meal {
+    .goal-card {
         width: 100%;
+        min-height: auto;
     }
 
-    .goal-card,
+    .meals {
+        grid-template-columns: 1fr;
+    }
+
     .tracker,
     .meal,
     .form-box {
@@ -343,4 +526,19 @@ input[type="checkbox"] {
         flex-direction: column;
         align-items: stretch;
     }
+}
+
+.account-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 14px;
+    text-align: center;
+}
+
+.account-footer p {
+    color: #cbd5e1;
+    font-size: 15px;
 }

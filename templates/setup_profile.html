@@ -87,9 +87,34 @@
             </option>
         </select>
 
-        <button type="submit" class="primary-btn">
-            Start Tracking
-        </button>
+        <h3 style="margin-top:10px;">Your Goal</h3>
+
+        <select name="goal" id="goal-select" required onchange="showGoalInfo()">
+
+            <option value="">Select Your Goal</option>
+        
+            <option value="cut">Fat Loss (Cut)</option>
+            <option value="lean_bulk">Lean Bulk</option>
+            <option value="bulk">Muscle Gain (Bulk)</option>
+            <option value="recomp">Body Recomposition</option>
+            <option value="maintain">Maintenance</option>
+        
+        </select>
+
+        <div id="goal-info" style="
+            font-size:14px;
+            color:#cbd5e1;
+            margin-bottom:15px;
+            min-height:20px;
+            ">
+        </div>
+
+        <div class="account-footer">
+
+            <button type="submit" class="primary-btn">
+                Start Tracking
+            </button>        
+        </div>
 
     </form>
 

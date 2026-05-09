@@ -12,7 +12,88 @@ let meals = []
 
 window.goalReached = false
 
-// ===== LOAD & SAVE STATE =====
+
+// ===== INIT (RUN ON PAGE LOAD) =====
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    // ===== DAILY RESET LOGIC =====
+    const today = new Date().toDateString()
+    const savedDate = localStorage.getItem("nutrifit_date")
+
+    if (savedDate !== today) {
+        localStorage.removeItem("nutrifit_state")
+        localStorage.setItem("nutrifit_date", today)
+
+        totalCalories = 0
+        totalProtein = 0
+        totalCarbs = 0
+        totalFat = 0
+        meals = []
+
+        window.goalReached = false
+    }
+
+    loadState()
+
+    // ===== NUTRIBOT SETUP =====
+    const toggle = document.getElementById("nutriToggle")
+    const windowBox = document.getElementById("nutriWindow")
+    const closeBtn = document.getElementById("nutriClose")
+    const chatBox = document.getElementById("nutriMessages")
+
+    const greetings = [
+        `Welcome ${username}! 👋`,
+        `Welcome back ${username}! 😎`,
+        `Good to see you ${username}! 💪`,
+        `Hey ${username}, ready to crush your goals? 🔥`,
+        `Yo ${username}! Let’s get those gains 💥`
+    ]
+
+    function getRandomGreeting() {
+        return greetings[Math.floor(Math.random() * greetings.length)]
+    }
+
+    if (toggle && windowBox) {
+        toggle.addEventListener("click", () => {
+            windowBox.style.display = "flex"
+            chatBox.innerHTML = ""
+
+            chatBox.innerHTML += `
+            <div class="chat-msg bot">
+                <div class="chat-avatar">🤖</div>
+                <div>${getRandomGreeting()}</div>
+            </div>`
+        })
+    }
+
+    if (closeBtn && windowBox) {
+        closeBtn.addEventListener("click", () => {
+            windowBox.style.display = "none"
+        })
+    }
+
+    // ENTER KEY SEND
+    const inputBox = document.getElementById("nutriInput")
+
+    if (inputBox) {
+        inputBox.addEventListener("keydown", function (e) {
+            if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault()
+                sendMessage()
+            }
+        })
+    }
+
+    // DIET PLAN CHECKBOX LISTENER
+    document.querySelectorAll("#veg-plan input, #nonveg-plan input")
+    .forEach(box => {
+        box.addEventListener("change", updateDietPlanMacros)
+    })
+})
+
+
+// ===== LOAD STATE =====
 
 function loadState() {
     const saved = localStorage.getItem("nutrifit_state")
@@ -42,6 +123,9 @@ function loadState() {
     }
 }
 
+
+// ===== SAVE STATE =====
+
 function saveState() {
     localStorage.setItem("nutrifit_state", JSON.stringify({
         totalCalories,
@@ -52,7 +136,8 @@ function saveState() {
     }))
 }
 
-// ===== DASHBOARD UPDATE =====
+
+// ===== UPDATE DASHBOARD =====
 
 function updateDashboard() {
 
@@ -81,6 +166,7 @@ function updateDashboard() {
     }
 }
 
+
 // ===== ADD FOOD =====
 
 function addFood(button) {
@@ -90,16 +176,14 @@ function addFood(button) {
     const qtyInput = container.querySelector(".food-qty")
 
     const food = input.value.trim()
+    if (!food) return
 
-    const qtyValue = qtyInput.value
-        ? parseFloat(qtyInput.value)
-        : 1
-
+    const qtyValue = qtyInput.value ? parseFloat(qtyInput.value) : 1
     const unit = container.querySelector(".food-unit").value
 
     let qty = qtyValue
 
-    // Convert piece → grams
+    // piece → grams
     if (unit === "piece") {
         const conversions = {
             "roti": 40,
@@ -108,32 +192,23 @@ function addFood(button) {
             "banana": 120
         }
 
-        const lowerFood = food.toLowerCase()
-
         for (let key in conversions) {
-            if (lowerFood.includes(key)) {
+            if (food.toLowerCase().includes(key)) {
                 qty = qtyValue * conversions[key]
                 break
             }
         }
     }
 
-    // ml → grams (approx)
+    // ml → grams
     if (unit === "ml") {
         qty = qtyValue
     }
 
-    if (!food) return
-
     fetch("/get_food_data", {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            food: food,
-            quantity: qty
-        })
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ food, quantity: qty })
     })
     .then(res => res.json())
     .then(data => {
@@ -156,16 +231,14 @@ function addFood(button) {
         const resultDiv = container.querySelector(".meal-result")
 
         resultDiv.innerHTML += `
-            <p>
-                ${food} (${qtyValue} ${unit})
-                → ${data.protein}g protein
-            </p>
+            <p>${food} (${qtyValue} ${unit}) → ${data.protein}g protein</p>
         `
 
         input.value = ""
         qtyInput.value = ""
     })
 }
+
 
 // ===== AUTOCOMPLETE =====
 
@@ -174,7 +247,7 @@ function getSuggestions(input) {
     const query = input.value
     const box = input.nextElementSibling
 
-    if (query.length === 0) {
+    if (!query) {
         box.innerHTML = ""
         return
     }
@@ -199,74 +272,13 @@ function getSuggestions(input) {
     })
 }
 
-// ===== NUTRIBOT =====
 
-document.addEventListener("DOMContentLoaded", () => {
-
-    loadState()  // ✅ IMPORTANT
-
-    const toggle = document.getElementById("nutriToggle")
-    const windowBox = document.getElementById("nutriWindow")
-    const closeBtn = document.getElementById("nutriClose")
-    const chatBox = document.getElementById("nutriMessages")
-
-    const greetings = [
-        `Welcome ${username}! 👋`,
-        `Welcome back ${username}! 😎`,
-        `Good to see you ${username}! 💪`,
-        `Hey ${username}, ready to crush your goals? 🔥`,
-        `Yo ${username}! Let’s get those gains 💥`
-    ]
-
-    function getRandomGreeting() {
-        return greetings[Math.floor(Math.random() * greetings.length)]
-    }
-
-    if (toggle && windowBox) {
-        toggle.addEventListener("click", () => {
-
-            windowBox.style.display = "flex"
-            chatBox.innerHTML = ""
-
-            chatBox.innerHTML += `
-            <div class="chat-msg bot">
-                <div class="chat-avatar">🤖</div>
-                <div>${getRandomGreeting()}</div>
-            </div>`
-        })
-    }
-
-    if (closeBtn && windowBox) {
-        closeBtn.addEventListener("click", () => {
-            windowBox.style.display = "none"
-        })
-    }
-
-    // ENTER TO SEND
-    const inputBox = document.getElementById("nutriInput")
-
-    if (inputBox) {
-        inputBox.addEventListener("keydown", function (e) {
-            if (e.key === "Enter" && !e.shiftKey) {
-                e.preventDefault()
-                sendMessage()
-            }
-        })
-    }
-
-    document.querySelectorAll("#veg-plan input, #nonveg-plan input")
-    .forEach(box => {
-        box.addEventListener("change", updateDietPlanMacros)
-    })
-})
-
-// ===== SEND MESSAGE =====
+// ===== CHAT =====
 
 function sendMessage() {
 
     const input = document.getElementById("nutriInput")
     const message = input.value
-
     if (!message.trim()) return
 
     const chatBox = document.getElementById("nutriMessages")
@@ -278,12 +290,12 @@ function sendMessage() {
 
     fetch("/chat", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {"Content-Type": "application/json"},
         body: JSON.stringify({
-            message: message,
+            message,
             protein: totalProtein,
             goal: proteinGoal,
-            meals: meals
+            meals
         })
     })
     .then(res => res.json())
@@ -301,101 +313,93 @@ function sendMessage() {
     input.value = ""
 }
 
+
+// ===== DIET PLAN SWITCH =====
+
 function showDietPlan(type) {
-    const vegPlan = document.getElementById("veg-plan")
-    const nonVegPlan = document.getElementById("nonveg-plan")
-
-    // Reset all checkboxes when switching plan
-    document.querySelectorAll("#veg-plan input, #nonveg-plan input")
-        .forEach(box => box.checked = false)
-
-    // Reset dashboard values
-    totalCalories = 0
-    totalProtein = 0
-    totalCarbs = 0
-    totalFat = 0
-
-    meals = []
-    window.goalReached = false
-
-    updateDashboard()
-    saveState()
+    const vegPlan = document.getElementById("veg-plan");
+    const nonVegPlan = document.getElementById("nonveg-plan");
 
     if (type === "veg") {
-        vegPlan.style.display = "block"
-        nonVegPlan.style.display = "none"
+        vegPlan.style.display = "block";
+        nonVegPlan.style.display = "none";
     } else {
-        vegPlan.style.display = "none"
-        nonVegPlan.style.display = "block"
+        vegPlan.style.display = "none";
+        nonVegPlan.style.display = "block";
     }
 }
 
+
+// ===== DIET PLAN MACROS =====
+
 function updateDietPlanMacros() {
+
     let calories = 0
     let protein = 0
     let carbs = 0
     let fat = 0
 
     document.querySelectorAll("#veg-plan input:checked, #nonveg-plan input:checked")
-        .forEach(box => {
-            const text = box.parentElement.innerText.toLowerCase()
+    .forEach(box => {
 
-            if (text.includes("smoothie")) {
-                calories += 400
-                protein += 30
-                carbs += 35
-                fat += 12
-            }
+        const text = box.parentElement.innerText.toLowerCase()
 
-            if (text.includes("paneer 50g")) {
-                calories += 150
-                protein += 9
-                fat += 10
-            }
+        if (text.includes("smoothie")) {
+            calories += 400
+            protein += 30
+            carbs += 35
+            fat += 12
+        }
 
-            if (text.includes("paneer 100g")) {
-                calories += 300
-                protein += 18
-                fat += 20
-            }
+        if (text.includes("paneer 50g")) {
+            calories += 150
+            protein += 9
+            fat += 10
+        }
 
-            if (text.includes("chicken 100g")) {
-                calories += 165
-                protein += 31
-                fat += 4
-            }
+        if (text.includes("paneer 100g")) {
+            calories += 300
+            protein += 18
+            fat += 20
+        }
 
-            if (text.includes("chicken 150g")) {
-                calories += 250
-                protein += 45
-                fat += 6
-            }
+        if (text.includes("chicken 100g")) {
+            calories += 165
+            protein += 31
+            fat += 4
+        }
 
-            if (text.includes("banana")) {
-                calories += 100
-                protein += 1
-                carbs += 27
-            }
+        if (text.includes("chicken 150g")) {
+            calories += 250
+            protein += 45
+            fat += 6
+        }
 
-            if (text.includes("bread + peanut butter")) {
-                calories += 300
-                protein += 12
-                carbs += 25
-                fat += 14
-            }
+        if (text.includes("banana")) {
+            calories += 100
+            protein += 1
+            carbs += 27
+        }
 
-            if (text.includes("2 roti")) {
-                calories += 200
-                protein += 6
-                carbs += 35
-            }
+        if (text.includes("bread + peanut butter")) {
+            calories += 300
+            protein += 12
+            carbs += 25
+            fat += 14
+        }
 
-            if (text.includes("rice")) {
-                calories += 200
-                protein += 4
-                carbs += 45
-            }
-        })
+        if (text.includes("2 roti")) {
+            calories += 200
+            protein += 6
+            carbs += 35
+        }
+
+        if (text.includes("rice")) {
+            calories += 200
+            protein += 4
+            carbs += 45
+        }
+    })
 
     totalCalories = calories
     totalProtein = protein
@@ -404,4 +408,34 @@ function updateDietPlanMacros() {
 
     updateDashboard()
     saveState()
+}
+
+function showGoalInfo() {
+
+    const goal = document.getElementById("goal-select").value
+    const box = document.getElementById("goal-info")
+
+    let text = ""
+
+    if (goal === "cut") {
+        text = "Lose fat by eating fewer calories than your body needs."
+    }
+
+    else if (goal === "lean_bulk") {
+        text = "Gain muscle slowly with minimal fat gain."
+    }
+
+    else if (goal === "bulk") {
+        text = "Gain muscle faster with higher calorie intake (some fat gain expected)."
+    }
+
+    else if (goal === "recomp") {
+        text = "Build muscle and lose fat at the same time."
+    }
+
+    else if (goal === "maintain") {
+        text = "Maintain your current weight and fitness level."
+    }
+
+    box.innerText = text
 }
