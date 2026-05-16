@@ -1,8 +1,27 @@
 from flask import Flask, render_template, request, jsonify, session, redirect
 import pandas as pd
 import random
+import sqlite3 
 
 app = Flask(__name__)
+
+def init_db():
+    conn = sqlite3.connect("nutrifit.db")
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            email TEXT NOT NULL UNIQUE,
+            password TEXT NOT NULL
+        )
+    """)
+
+    conn.commit()
+    conn.close()
+init_db()
+
 app.secret_key = "nutrifit-secret-key-2024"
 
 # Load food database
@@ -19,13 +38,16 @@ def home():
 
 
 # =========================
-# ACCOUNT / LOGIN PAGE
+# REGISTER PAGE
 # =========================
 
 @app.route("/account")
 def account():
     return render_template("account.html")
 
+@app.route("/register-page")
+def register_page():
+    return render_template("register.html")
 
 @app.route("/register", methods=["POST"])
 def register():
@@ -35,16 +57,76 @@ def register():
 
     if not name or not email or not password:
         return render_template(
-            "account.html",
+            "register.html",
             error="All fields are required."
         )
 
-    session["user"] = {
-        "name": name,
-        "email": email
-    }
+    conn = sqlite3.connect("nutrifit.db")
+    cursor = conn.cursor()
 
-    return redirect("/setup-profile")
+    try:
+        cursor.execute("""
+            INSERT INTO users (name, email, password)
+            VALUES (?, ?, ?)
+        """, (name, email, password))
+
+        conn.commit()
+
+        user_id = cursor.lastrowid
+
+    except sqlite3.IntegrityError:
+        conn.close()
+        return render_template(
+            "register.html",
+            error="Email already registered."
+        )
+
+    conn.close()
+
+    return redirect("/account")
+
+
+# =========================
+# LOGIN PAGE
+# =========================
+
+@app.route("/login", methods=["POST"])
+def login():
+    email = request.form.get("email", "").strip()
+    password = request.form.get("password", "").strip()
+
+    if not email or not password:
+        return render_template(
+            "account.html",
+            error="Email and password are required."
+        )
+
+    conn = sqlite3.connect("nutrifit.db")
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT id, name, email
+        FROM users
+        WHERE email = ? AND password = ?
+    """, (email, password))
+
+    user = cursor.fetchone()
+
+    conn.close()
+
+    if user:
+        session["user"] = {
+            "id": user[0],
+            "name": user[1],
+            "email": user[2]
+        }
+
+        return redirect("/dashboard")
+
+    return render_template(
+        "account.html",
+        error="Invalid email or password."
+    )
 
 
 # =========================
@@ -302,15 +384,31 @@ def suggest_food():
 # DELETE ACCOUNT / LOGOUT
 # =========================
 
-@app.route("/delete_account", methods=["POST"])
-def delete_account():
-    session.clear()
-    return redirect("/")
-
-
 @app.route("/logout")
 def logout():
     session.clear()
+    return redirect("/")
+
+@app.route("/delete_account", methods=["POST"])
+def delete_account():
+    if "user" not in session:
+        return redirect("/account")
+
+    user_id = session["user"]["id"]
+
+    conn = sqlite3.connect("nutrifit.db")
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        DELETE FROM users
+        WHERE id = ?
+    """, (user_id,))
+
+    conn.commit()
+    conn.close()
+
+    session.clear()
+
     return redirect("/")
 
 
@@ -348,33 +446,6 @@ def chat():
     return jsonify({
         "reply": reply
     })
-
-@app.route("/dev")
-def dev():
-
-    session["user"] = {
-        "name": "Aditya",
-        "email": "test@nutrifit.com"
-    }
-
-    session["profile_data"] = {
-        "age": 21,
-        "height": 175,
-        "weight": 74,
-        "gender": "male",
-        "activity": "Moderate (Gym 3–5 days/week)",
-        "goal": "Body Recomposition"
-    }
-
-    session["goals"] = {
-        "calories": 2300,
-        "protein": 140,
-        "carbs": 250,
-        "fat": 70,
-        "goal": "recomp"
-    }
-
-    return redirect("/dashboard")
 
 
 # =========================
