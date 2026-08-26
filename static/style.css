@@ -13,6 +13,7 @@ body {
     background: #0b1120;
     color: #ffffff;
     line-height: 1.6;
+    min-height: 100vh;
 }
 
 
@@ -22,7 +23,7 @@ body {
 
 header {
     background: #111827;
-    padding: 18px 40px;
+    padding: 14px 32px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -42,15 +43,9 @@ header {
 
 
 /* =========================
-   NAVBAR
+   START BUTTON
 ========================= */
 
-nav {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    flex-wrap: wrap;
-}
 
 .start-btn,
 .primary-btn {
@@ -107,19 +102,54 @@ nav {
 ========================= */
 
 .form-container {
-    max-width: 650px;
-    margin: 60px auto;
+    max-width: 520px;
+    width: 90%;
+    margin: 40px auto;
     padding: 40px;
-    background: rgba(31, 41, 55, 0.9);
-    border-radius: 24px;
-    backdrop-filter: blur(14px);
-    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 28px;
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+}
+
+.profile-page {
+    max-width: 480px;
+    margin: 20px auto;
+    padding: 20px 20px 120px;
+}
+
+.profile-page h2 {
+    font-size: 24px;
+}
+
+.profile-page p,
+.profile-page li {
+    font-size: 15px;
+}
+
+.form-container h2 {
+    text-align: center;
+    font-size: 34px;
+    margin-bottom: 28px;
+    color: white;
 }
 
 .form-container form {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.auth-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.auth-page .form-container {
+    margin: auto;
 }
 
 .account-footer {
@@ -144,92 +174,6 @@ nav {
 .text-link:hover {
     color: #93c5fd;
     text-decoration: underline;
-}
-
-/* =========================
-   DASHBOARD
-========================= */
-
-.dashboard {
-    max-width: 1200px;
-    margin: 40px auto;
-    padding: 30px;
-}
-
-h2 {
-    text-align: center;
-    font-size: 32px;
-    margin-bottom: 30px;
-}
-
-h3 {
-    font-size: 24px;
-    margin-bottom: 15px;
-}
-
-.goal-name {
-    text-align: center;
-    font-size: 28px;
-    font-weight: 800;
-    margin-bottom: 24px;
-    color: white;
-}
-
-.section-subheading {
-    text-align: center;
-    font-size: 28px;
-    font-weight: 700;
-    margin-bottom: 20px;
-    color: #e2e8f0;
-}
-
-
-/* =========================
-   GOAL CARDS
-========================= */
-
-.stats-section {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 30px;
-    align-items: start;
-    margin-top: 30px;
-    margin-bottom: 50px;
-}
-
-.goal-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 260px);
-    gap: 25px;
-    justify-content: center;
-}
-
-.goal-card {
-    flex: 1;
-    min-width: 180px;
-    max-width: 300px;
-    min-height: 130px;
-    background: #1f2937;
-    border-radius: 22px;
-    padding: 18px;
-    box-shadow: 0 12px 30px rgba(0,0,0,0.22);
-    text-align: center;
-    transition: 0.25s ease;
-}
-
-.goal-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 18px 40px rgba(0,0,0,0.3);
-}
-
-.goal-card h3 {
-    font-size: 22px;
-    margin-bottom: 20px;
-}
-
-.goal-card p {
-    font-size: 22px;
-    font-weight: 700;
 }
 
 
@@ -262,6 +206,13 @@ h3 {
     box-shadow: 0 10px 30px rgba(0,0,0,0.18);
 }
 
+.meal {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    min-height: 100%;
+}
+
 .tracker {
     width: 100%;
     border-radius: 22px;
@@ -270,18 +221,41 @@ h3 {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    gap: 18px;
+}
+
+.tracker-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.tracker-row:last-child {
+    border-bottom: none;
+}
+
+.status-text {
+    font-size: 14px;
+    font-weight: 600;
+    text-align: right;
+    max-width: 280px;
 }
 
 .tracker p {
-    font-size: 20px;
-    margin-bottom: 16px;
+    margin: 0;
 }
 
 .meal p {
-    font-size: 18px;
-    margin-bottom: 14px;
+    margin: 8px 0;
+    line-height: 1.6;
 }
 
+.meal h3 {
+    margin-bottom: 20px;
+}
 
 /* =========================
    FORM INPUTS
@@ -421,26 +395,20 @@ input[type="checkbox"] {
 }
 
 .add-food-btn {
+    width: 100%;
+    height: 48px;
     background: rgba(255,255,255,0.06);
     color: white;
     border: none;
     appearance: none;
     outline: none;
     cursor: pointer;
-
-    min-width: 120px;
-    height: 40px;
-    padding: 10px 20px;
-
     border-radius: 999px;
-
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 700;
-
     display: inline-flex;
     align-items: center;
     justify-content: center;
-
     transition: all 0.25s ease;
 }
 
@@ -453,7 +421,6 @@ input[type="checkbox"] {
 .profile-actions .primary-btn {
     min-width: 150px;
 }
-
 
 /* =========================
    ERRORS
@@ -484,9 +451,10 @@ input[type="checkbox"] {
         width: 100%;
     }
 
-    nav {
+    header nav {
         justify-content: center;
         width: 100%;
+        gap: 8px;
     }
 
     .hero {
@@ -517,11 +485,15 @@ input[type="checkbox"] {
     }
 
     .stats-section {
-        grid-template-columns: 1fr;
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
     }
     
     .goal-grid {
-        grid-template-columns: 1fr;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
     }
 
     .goal-card {
@@ -555,6 +527,42 @@ input[type="checkbox"] {
         flex-direction: column;
         align-items: stretch;
     }
+
+    .quantity-row {
+        gap: 10px;
+    }
+    
+    .food-qty {
+        flex: 2;
+    }
+    
+    .food-unit {
+        flex: 1;
+    }
+
+    .tracker-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .status-text {
+        max-width: 100%;
+        text-align: left;
+        font-size: 13px;
+    }
+
+    .veg-btn,
+    .nonveg-btn {
+        width: 90px;
+        height: 60px;
+        font-size: 15px;
+    }
+    
+    header nav a {
+        flex: 1;
+        text-align: center;
+    }
 }
 
 .modal-overlay {
@@ -574,7 +582,7 @@ input[type="checkbox"] {
     border-radius: 24px;
     width: 90%;
     max-width: 420px;
-    text-align: center;
+    text-align: left;
     box-shadow: 0 20px 50px rgba(0,0,0,0.35);
 }
 
@@ -593,41 +601,1584 @@ input[type="checkbox"] {
 .modal-actions {
     display: flex;
     justify-content: center;
-    align-items: center;
-    gap: 18px;
+    gap: 16px;
+    margin-top: 28px;
 }
 
-.modal-actions form {
+.modal-delete-form {
     margin: 0;
 }
 
 .modal-no-btn,
 .modal-yes-btn {
+    width: 130px;
+    height: 54px;
     border: none;
-    cursor: pointer;
-    padding: 14px 28px;
     border-radius: 999px;
-    font-size: 17px;
+    font-size: 18px;
     font-weight: 700;
+    cursor: pointer;
     transition: all 0.25s ease;
 }
 
 .modal-no-btn {
-    background: rgba(255,255,255,0.08);
+    background: #374151;
     color: white;
 }
 
 .modal-no-btn:hover {
-    transform: translateY(-3px);
-    background: rgba(255,255,255,0.14);
+    background: #4b5563;
+    transform: translateY(-2px);
 }
 
 .modal-yes-btn {
-    background: #dc2626;
+    background: #ef4444;
     color: white;
 }
 
 .modal-yes-btn:hover {
+    background: #dc2626;
+    transform: translateY(-2px);
+}
+
+
+/* =========================
+   PREMIUM DASHBOARD APP
+========================= */
+
+.dashboard-app {
+    max-width: 480px;
+    margin: 0 auto;
+    min-height: 100vh;
+    padding: 22px 16px 180px;
+    background: #0b1120;
+}
+
+.header-section {
+    margin-bottom: 24px;
+}
+
+.header-section h1 {
+    font-size: 30px;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 6px;
+}
+
+.header-section p {
+    font-size: 14px;
+    color: #94a3b8;
+}
+
+/* MAIN CARD */
+
+.nutrition-card {
+    width: 100%;
+    padding: 25px;
+    border-radius: 18px;
+}
+
+.nutrition-card h2,
+.water-card h2 {
+    text-align: left;
+    font-size: 22px;
+    color: white;
+    margin-bottom: 18px;
+}
+
+.nutrition-card input {
+    width: 100%;
+    padding: 12px;
+    margin-top: 6px;
+    margin-bottom: 18px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+/* BIG CALORIE BOX */
+
+.main-calorie-box {
+    background: rgba(255,255,255,0.05);
+    border-radius: 24px;
+    padding: 18px;
+    margin-bottom: 18px;
+}
+
+.main-calorie-box span {
+    font-size: 14px;
+    color: #94a3b8;
+}
+
+.main-calorie-box h3 {
+    font-size: 34px;
+    font-weight: 800;
+    color: white;
+    margin: 8px 0 12px;
+}
+
+.main-calorie-box p {
+    font-size: 14px;
+    color: #cbd5e1;
+    margin-bottom: 10px;
+}
+
+.main-calorie-box strong {
+    display: block;
+    margin-top: 10px;
+    font-size: 16px;
+    color: white;
+}
+
+/* PROGRESS */
+
+.progress-bar {
+    width: 100%;
+    height: 10px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    border-radius: 999px;
+    background-color: green;
+}
+
+/* MACROS */
+
+.macro-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.macro-box {
+    background: rgba(255,255,255,0.05);
+    border-radius: 20px;
+    padding: 16px;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.macro-box span {
+    display: block;
+    font-size: 13px;
+    color: #94a3b8;
+    margin-bottom: 8px;
+}
+
+.macro-box strong {
+    display: block;
+    font-size: 18px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 10px;
+}
+
+.mini-progress {
+    width: 100%;
+    height: 8px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.mini-fill {
+    height: 100%;
+    border-radius: 999px;
+    width: 0%;
+}
+
+.protein-fill,
+.carbs-fill,
+.fat-fill,
+.water-fill {
+    background-color: #22c55e;
+}
+
+/* BUTTON */
+
+.edit-btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #b38901;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.edit-goals-form {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+/* WATER SECTION */
+
+.water-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.water-info p {
+    font-size: 13px;
+    color: #cbd5e1;
+}
+
+.water-progress-box {
+    background: rgba(255,255,255,0.05);
+    padding: 18px;
+    border-radius: 20px;
+    margin-bottom: 18px;
+}
+
+.water-progress-box strong {
+    display: block;
+    font-size: 18px;
+    color: white;
+    margin-bottom: 6px;
+}
+
+.water-progress-box span {
+    display: block;
+    font-size: 14px;
+    color: #94a3b8;
+    margin-bottom: 12px;
+}
+
+.water-progress {
+    width: 0%;
+    background: #22c55e;
+}
+
+.water-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+}
+
+.water-controls button {
+    width: 52px;
+    height: 52px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    color: white;
+    font-size: 24px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.water-controls button:hover {
+    transform: scale(1.08);
+}
+
+.water-controls span {
+    font-size: 22px;
+    font-weight: 800;
+    color: white;
+}
+
+/* MOBILE */
+
+@media (max-width: 480px) {
+    .dashboard-app {
+        padding: 18px 14px 120px;
+    }
+
+    .header-section h1 {
+        font-size: 26px;
+    }
+
+    .main-calorie-box h3 {
+        font-size: 28px;
+    }
+}
+
+
+/* =========================
+   PROFILE APP SCREEN
+========================= */
+
+.profile-screen {
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 24px 18px 120px;
+    min-height: 100vh;
+}
+
+.profile-header {
+    margin-bottom: 28px;
+}
+
+.profile-header h1 {
+    font-size: 28px;
+    font-weight: 800;
+    color: white;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.profile-item {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 20px;
+    padding: 18px 20px;
+    backdrop-filter: blur(10px);
+}
+
+.profile-item span {
+    display: block;
+    font-size: 13px;
+    color: #94a3b8;
+    margin-bottom: 6px;
+}
+
+.profile-item strong {
+    font-size: 18px;
+    color: white;
+}
+
+.profile-actions {
+    margin-top: 28px;
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.profile-action-btn {
+    width: 120px;
+    height: 46px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+
+    transition: all 0.25s ease;
+    cursor: pointer;
+}
+
+.update-btn {
+    background: #2563eb;
+    color: white;
+}
+
+.logout-btn {
+    background: rgba(255,255,255,0.10);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+.delete-btn {
+    background: #dc2626;
+    color: white;
+}
+
+.profile-action-btn:hover {
     transform: translateY(-3px);
-    background: #ef4444;
+}
+
+
+/* =========================
+   PREMIUM BOTTOM NAV
+========================= */
+
+.premium-nav {
+    position: fixed;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: 90%;
+    max-width: 420px;
+    height: 82px;
+
+    background: rgba(17, 24, 39, 0.45);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 999px;
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    padding: 10px 14px;
+
+    box-shadow:
+        0 12px 35px rgba(0,0,0,0.25);
+
+    z-index: 9999;
+}
+
+.premium-nav-item {
+    text-decoration: none;
+    color: white;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 4px;
+
+    width: 50px;
+    height: 50px;
+
+    border-radius: 50%;
+    transition: all 0.25s ease;
+}
+
+.premium-nav-item span {
+    font-size: 24px;
+}
+
+.premium-nav-item small {
+    font-size: 12px;
+    font-weight: 600;
+    color: #808080;
+}
+
+
+/* =========================
+   MEALS RESULT
+========================= */
+
+.food-result-card {
+    background: rgba(255,255,255,0.05);
+    border-radius: 20px;
+    padding: 24px;
+    margin-top: 20px;
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+.food-result-card h3 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: white;
+}
+
+.nutrition-details p {
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #cbd5e1;
+}
+
+.nutrition-details strong {
+    color: white;
+}
+
+.food-result-card .edit-btn {
+    width: 100%;
+    margin-top: 10px;
+}
+
+
+/* =========================
+   TODAY'S MEALS
+========================= */
+
+.meal-item {
+    background: rgba(255,255,255,0.05);
+    border-radius: 16px;
+    padding: 14px;
+    margin-bottom: 12px;
+}
+
+.meal-item strong {
+    display: block;
+    color: white;
+    margin-bottom: 6px;
+}
+
+.meal-item p {
+    color: #cbd5e1;
+    margin-bottom: 4px;
+}
+
+.meal-item span {
+    color: #94a3b8;
+    font-size: 14px;
+}
+
+
+/* =========================
+   EDIT GOALS
+========================= */
+
+.edit-goals-card {
+    width: 100%;
+    max-width: 420px;
+    margin: 50px auto;
+    padding: 24px;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.edit-goals-card h2 {
+    color: white;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.edit-goals-card label {
+    color: white;
+    font-weight: 600;
+}
+
+.edit-goals-card input {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0 18px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.08);
+    color: white;
+    box-sizing: border-box;
+}
+
+/* =========================
+   WATER CONTROLS
+   ========================= */
+
+.water-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 14px;
+}
+
+.water-controls form {
+    margin: 0;
+}
+
+.water-btn {
+    width: 38px;
+    height: 38px;
+    border: none;
+    border-radius: 10px;
+
+    background: rgba(255, 255, 255, 0.08);
+    color: white;
+
+    font-size: 22px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: 0.2s ease;
+}
+
+.water-btn:active {
+    transform: scale(0.95);
+}
+
+/* =========================
+   DELETE MEAL BUTTON
+   ========================= */
+
+.meal-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.meal-info {
+    flex: 1;
+}
+
+.meal-item form {
+    margin: 0;
+}
+
+.delete-meal-btn {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 9px;
+
+    background: rgba(255, 255, 255, 0.05);
+    color: #94a3b8;
+
+    font-size: 15px;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.delete-meal-btn:hover {
+    background: rgba(239, 68, 68, 0.12);
+    border-color: rgba(239, 68, 68, 0.25);
+    color: #f87171;
+}
+
+.delete-meal-btn:active {
+    transform: scale(0.92);
+}
+
+/* Remove number input spinner arrows */
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+/* ========================================
+   NUTRIFIT ONBOARDING
+   ======================================== */
+
+.onboarding-page {
+    min-height: 100vh;
+    background: #0f172a;
+    display: flex;
+    flex-direction: column;
+}
+
+.onboarding-header {
+    padding: 24px 30px;
+    text-align: center;
+}
+
+.onboarding-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 20px 80px;
+}
+
+.onboarding-card {
+    display: none;
+    width: 100%;
+    max-width: 460px;
+    padding: 40px 32px;
+    background: #1e293b;
+    border-radius: 24px;
+    box-sizing: border-box;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+}
+
+.onboarding-card.active {
+    display: block;
+    animation: onboardingSlideIn 0.4s ease;
+}
+
+@keyframes onboardingSlideIn {
+
+    from {
+        opacity: 0;
+        transform: translateX(35px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.onboarding-icon {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.onboarding-card h1,
+.onboarding-card h2 {
+    color: #f8fafc;
+    margin-bottom: 12px;
+}
+
+.onboarding-card p {
+    color: #94a3b8;
+    line-height: 1.6;
+    margin-bottom: 28px;
+}
+
+.step-indicator {
+    color: #38bdf8;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 22px;
+}
+
+.onboarding-card input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 15px 16px;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    background: #0f172a;
+    color: #f8fafc;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+.onboarding-card input:focus {
+    border-color: #38bdf8;
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.12);
+}
+
+.onboarding-card input::placeholder {
+    color: #64748b;
+}
+
+.onboarding-actions {
+    width: 100%;
+
+    display: flex !important;
+    flex-direction: row !important;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 16px;
+
+    margin-top: 24px;
+}
+
+.onboarding-actions button,
+.onboarding-actions a {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+.secondary-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    min-height: 48px;
+    padding: 12px 20px;
+    border-radius: 12px;
+    border: 1px solid #334155;
+    background: transparent;
+    color: #cbd5e1;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.secondary-btn:hover {
+    background: #1e293b;
+    border-color: #475569;
+}
+
+.onboarding-actions .primary-btn {
+    min-height: 48px;
+}
+
+#signup-form {
+    width: 100%;
+    max-width: 460px;
+}
+
+#signup-form .onboarding-card {
+    margin: 0 auto;
+}
+
+.form-error {
+    margin-top: 15px;
+}
+
+
+/* ========================================
+   MOBILE
+   ======================================== */
+
+@media (max-width: 600px) {
+
+    .onboarding-header {
+        padding: 20px;
+    }
+
+    .onboarding-container {
+        padding: 20px 16px 50px;
+    }
+
+    .onboarding-card {
+        padding: 32px 22px;
+        border-radius: 20px;
+    }
+
+    .onboarding-actions {
+        flex-direction: column;
+    }
+
+    .onboarding-actions button,
+    .onboarding-actions a {
+        width: 100%;
+    }
+}
+
+.welcome-actions {
+    flex-direction: column;
+}
+
+.welcome-actions .primary-btn,
+.welcome-actions .secondary-btn {
+    width: 100%;
+    min-height: 50px;
+}
+
+/* ========================================
+   CENTERED ONBOARDING CARDS
+   ======================================== */
+
+.auth-page {
+    min-height: 100vh;
+}
+
+.onboarding-container {
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    box-sizing: border-box;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#register-form {
+    width: 100%;
+    max-width: 460px;
+}
+
+#register-form .onboarding-card {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0 auto;
+}
+
+#login-form {
+    width: 100%;
+    max-width: 460px;
+}
+
+#login-form .onboarding-card {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0 auto;
+}
+
+.welcome-actions {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.welcome-actions .primary-btn,
+.welcome-actions .secondary-btn {
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+/* ========================================
+   WELCOME SCREEN
+   ======================================== */
+
+body.auth-page {
+    min-height: 100vh;
+}
+
+.auth-page .onboarding-container {
+    min-height: calc(100vh - 80px);
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 40px 20px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    box-sizing: border-box;
+}
+
+.auth-page .onboarding-card {
+    width: 100%;
+    max-width: 520px;
+    box-sizing: border-box;
+}
+
+/* ========================================
+   WELCOME PAGE BUTTONS - SIDE BY SIDE
+   ======================================== */
+
+.welcome-actions {
+    width: 100%;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+}
+
+.welcome-actions .primary-btn,
+.welcome-actions .secondary-btn {
+    width: 200px !important;
+    flex: 0 0 200px !important;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+
+/* Mobile: stack buttons on small screens */
+
+@media (max-width: 600px) {
+
+    .welcome-actions {
+        flex-direction: column !important;
+    }
+
+    .welcome-actions .primary-btn,
+    .welcome-actions .secondary-btn {
+        width: 100% !important;
+        flex: none !important;
+    }
+
+}
+
+/* =========================================
+   DASHBOARD WATER CONTROLS
+   ========================================= */
+
+.water-actions {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+
+    gap: 14px !important;
+
+    width: 100% !important;
+    margin-top: 5px !important;
+}
+
+.water-actions form {
+    display: flex !important;
+
+    width: auto !important;
+    flex: 0 0 auto !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.water-actions .water-btn {
+    display: inline-flex !important;
+
+    align-items: center !important;
+    justify-content: center !important;
+
+    width: auto !important;
+    min-width: 125px !important;
+    height: 44px !important;
+
+    padding: 0 20px !important;
+
+    box-sizing: border-box !important;
+
+    white-space: nowrap !important;
+
+    border: 1px solid rgba(255,255,255,0.1) !important;
+    border-radius: 10px !important;
+
+    background: #334155 !important;
+    color: #ffffff !important;
+
+    font-family: Arial, sans-serif !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    line-height: 1 !important;
+
+    cursor: pointer !important;
+
+    transition: background 0.2s ease,
+                transform 0.2s ease !important;
+}
+
+.water-actions .water-btn:hover {
+    background: #475569 !important;
+    transform: translateY(-1px);
+}
+
+
+/* =========================================
+   MOBILE WATER CONTROLS
+   ========================================= */
+
+@media (max-width: 600px) {
+
+    .water-actions {
+        flex-direction: row !important;
+        justify-content: flex-start !important;
+        gap: 10px !important;
+    }
+
+    .water-actions form {
+        flex: 0 0 auto !important;
+        width: auto !important;
+    }
+
+    .water-actions .water-btn {
+        min-width: 110px !important;
+        width: auto !important;
+        padding: 0 14px !important;
+        font-size: 14px !important;
+    }
+}
+
+/* =========================================
+   DASHBOARD - COMPACT APP LAYOUT
+   ========================================= */
+
+.dashboard-main {
+    width: 100%;
+    max-width: 1200px !important;
+
+    margin: 0 auto !important;
+
+    padding: 32px 24px 120px !important;
+
+    box-sizing: border-box;
+}
+
+
+/* Smaller welcome heading */
+
+.dashboard-welcome {
+    margin-bottom: 26px !important;
+}
+
+.dashboard-welcome h1 {
+    font-size: 32px !important;
+    margin-bottom: 6px !important;
+}
+
+.dashboard-welcome p {
+    font-size: 15px !important;
+}
+
+
+/* =========================================
+   GOAL CARDS
+   ========================================= */
+
+.goal-grid {
+    gap: 16px !important;
+    margin-bottom: 24px !important;
+}
+
+.goal-card {
+    min-height: 145px !important;
+
+    padding: 20px !important;
+
+    border-radius: 16px !important;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease,
+        background 0.25s ease;
+}
+
+.goal-card:hover {
+    transform: translateY(-6px);
+
+    border-color: rgba(96, 165, 250, 0.45);
+
+    background: #243249;
+
+    box-shadow:
+        0 14px 35px rgba(0, 0, 0, 0.25),
+        0 0 20px rgba(96, 165, 250, 0.08);
+}
+
+.goal-card strong {
+    transition: transform 0.25s ease;
+}
+
+.goal-card:hover strong {
+    transform: scale(1.04);
+}
+
+
+/* =========================================
+   PROGRESS CARDS
+   ========================================= */
+
+.progress-section {
+    gap: 16px !important;
+    margin-bottom: 24px !important;
+}
+
+.progress-card {
+    padding: 20px !important;
+
+    border-radius: 16px !important;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease;
+}
+
+.progress-card:hover {
+    transform: translateY(-5px);
+
+    border-color: rgba(129, 140, 248, 0.4);
+
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.22),
+        0 0 18px rgba(129, 140, 248, 0.07);
+}
+
+
+/* =========================================
+   MEALS CARD
+   ========================================= */
+
+.dashboard-section {
+    padding: 22px !important;
+
+    border-radius: 16px !important;
+
+    margin-bottom: 24px !important;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease;
+}
+
+.dashboard-section:hover {
+    transform: translateY(-4px);
+
+    border-color: rgba(96, 165, 250, 0.35);
+
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.22);
+}
+
+
+/* =========================================
+   WATER CARD
+   ========================================= */
+
+.water-section {
+    padding: 22px !important;
+
+    border-radius: 16px !important;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease;
+}
+
+.water-section:hover {
+    transform: translateY(-4px);
+
+    border-color: rgba(56, 189, 248, 0.35);
+
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.22),
+        0 0 18px rgba(56, 189, 248, 0.06);
+}
+
+
+/* =========================================
+   GOAL TIMELINE
+   ========================================= */
+
+.goal-timeline {
+    padding: 18px 22px !important;
+
+    margin-bottom: 24px !important;
+
+    border-radius: 16px !important;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease;
+}
+
+.goal-timeline:hover {
+    transform: translateY(-3px);
+
+    border-color: rgba(167, 139, 250, 0.35);
+
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.20);
+}
+
+/* =========================================
+   DASHBOARD TOP BAR
+   ========================================= */
+
+.dashboard-topbar {
+    width: 100%;
+    height: 70px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 28px;
+
+    box-sizing: border-box;
+
+    background: #0f172a;
+
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+
+
+.dashboard-logo {
+    font-size: 30px;
+    font-weight: 800;
+
+    background: linear-gradient(
+        90deg,
+        #60a5fa,
+        #a78bfa,
+        #ec4899,
+        #fb923c
+    );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+
+    color: transparent;
+}
+
+
+/* =========================================
+   BOTTOM NAVIGATION
+   ========================================= */
+
+.bottom-nav {
+    position: fixed;
+
+    left: 50%;
+    bottom: 18px;
+
+    transform: translateX(-50%);
+
+    z-index: 9999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 6px;
+
+    padding: 8px;
+
+    background: rgba(30, 41, 59, 0.95);
+
+    border: 1px solid rgba(255,255,255,0.10);
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,0.35);
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+}
+
+
+.bottom-nav-item {
+    min-width: 82px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 4px;
+
+    padding: 9px 12px;
+
+    border-radius: 12px;
+
+    color: #94a3b8;
+
+    text-decoration: none;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+
+.bottom-nav-icon {
+    font-size: 19px;
+    line-height: 1;
+}
+
+
+.bottom-nav-label {
+    font-size: 11px;
+    font-weight: 600;
+}
+
+
+.bottom-nav-item:hover {
+    color: #ffffff;
+
+    background: rgba(255,255,255,0.07);
+
+    transform: translateY(-2px);
+}
+
+
+.bottom-nav-item.active {
+    color: #ffffff;
+
+    background: rgba(96,165,250,0.16);
+
+    border: 1px solid rgba(96,165,250,0.18);
+}
+
+
+.bottom-nav-item.logout {
+    color: #fca5a5;
+}
+
+
+.bottom-nav-item.logout:hover {
+    color: #fecaca;
+
+    background: rgba(239,68,68,0.10);
+}
+
+
+/* =========================================
+   DASHBOARD COMPACT SIZE
+   ========================================= */
+
+.dashboard-main {
+    max-width: 1200px !important;
+
+    margin: 0 auto !important;
+
+    padding: 30px 24px 120px !important;
+}
+
+
+.dashboard-welcome {
+    margin-bottom: 25px !important;
+}
+
+
+.dashboard-welcome h1 {
+    font-size: 32px !important;
+}
+
+
+/* =========================================
+   ATTRACTIVE GOAL CARDS
+   ========================================= */
+
+.goal-card {
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease,
+        background 0.25s ease !important;
+
+    cursor: pointer;
+}
+
+
+.goal-card:hover {
+    transform: translateY(-6px) !important;
+
+    background: #243249 !important;
+
+    border-color: rgba(96,165,250,0.45) !important;
+
+    box-shadow:
+        0 14px 35px rgba(0,0,0,0.25),
+        0 0 20px rgba(96,165,250,0.08) !important;
+}
+
+
+/* =========================================
+   ATTRACTIVE PROGRESS CARDS
+   ========================================= */
+
+.progress-card {
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease !important;
+}
+
+
+.progress-card:hover {
+    transform: translateY(-5px) !important;
+
+    border-color: rgba(129,140,248,0.4) !important;
+
+    box-shadow:
+        0 12px 30px rgba(0,0,0,0.22),
+        0 0 18px rgba(129,140,248,0.07) !important;
+}
+
+
+/* =========================================
+   OTHER DASHBOARD CARDS
+   ========================================= */
+
+.dashboard-section,
+.water-section,
+.goal-timeline {
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease !important;
+}
+
+
+.dashboard-section:hover {
+    transform: translateY(-4px) !important;
+
+    border-color: rgba(96,165,250,0.35) !important;
+
+    box-shadow:
+        0 12px 30px rgba(0,0,0,0.22) !important;
+}
+
+
+.water-section:hover {
+    transform: translateY(-4px) !important;
+
+    border-color: rgba(56,189,248,0.35) !important;
+
+    box-shadow:
+        0 12px 30px rgba(0,0,0,0.22) !important;
+}
+
+
+.goal-timeline:hover {
+    transform: translateY(-3px) !important;
+
+    border-color: rgba(167,139,250,0.35) !important;
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,0.20) !important;
+}
+
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media (max-width: 600px) {
+
+    .dashboard-topbar {
+        height: 65px;
+        padding: 0 20px;
+    }
+
+
+    .dashboard-logo {
+        font-size: 27px;
+    }
+
+
+    .dashboard-main {
+        padding:
+            25px 16px 120px !important;
+    }
+
+
+    .bottom-nav {
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
+
+        transform: none;
+
+        width: auto;
+
+        justify-content: space-around;
+    }
+
+
+    .bottom-nav-item {
+        min-width: 0;
+
+        flex: 1;
+
+        padding: 8px 4px;
+    }
+
+
+    .bottom-nav-label {
+        font-size: 10px;
+    }
+
 }

@@ -1,28 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#0f172a">
-    <meta name="description" content="NutriFit — Your personal AI nutrition coach. Track calories, protein and get smart meal suggestions.">
-    <title>NutriFit — Personal AI Coach</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#0f172a"
+    >
+
+    <meta
+        name="description"
+        content="Welcome to NutriFit."
+    >
+
+    <title>NutriFit — Welcome</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
 </head>
 
-<body>
+
+<body class="auth-page">
+
 
 <header>
-    <div class="logo">NutriFit</div>
+
+    <div class="logo">
+        NutriFit
+    </div>
+
 </header>
 
-<section class="hero">
-    <h1>Your Personal AI Coach</h1>
-    <p>
-        Track calories, protein intake and get smart meal suggestions
-        based on your daily goals.
-    </p>
-    <a href="/account" class="primary-btn">Get Started</a>
-</section>
+
+<main class="onboarding-container">
+
+
+    <section
+        class="onboarding-card active"
+    >
+
+        <div class="onboarding-icon">
+            🥗
+        </div>
+
+
+        <h1>
+            Welcome to NutriFit
+        </h1>
+
+
+        <p>
+            Your personalized nutrition and
+            fitness journey starts here.
+        </p>
+
+
+        <div class="onboarding-actions welcome-actions">
+
+            <a
+                href="/register-page"
+                class="primary-btn"
+            >
+                Sign Up
+            </a>
+        
+            <a
+                href="/account"
+                class="secondary-btn"
+            >
+                Log In
+            </a>
+        
+        </div>
+
+    </section>
+
+</main>
 
 </body>
+
 </html>

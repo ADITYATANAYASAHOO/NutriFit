@@ -1,58 +1,204 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#0f172a">
-    <meta name="description" content="Create your NutriFit account.">
-    <title>Create Account — NutriFit</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <meta
+        name="theme-color"
+        content="#0f172a"
+    >
+
+    <meta
+        name="description"
+        content="Login to NutriFit."
+    >
+
+    <title>Login — NutriFit</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
 </head>
 
-<body>
+
+<body class="auth-page">
+
 
 <header>
-    <div class="logo">NutriFit</div>
+    <div class="logo">
+        NutriFit
+    </div>
 </header>
 
-<div class="form-container">
 
-    <h2>Login</h2>
+<main class="onboarding-container">
 
-        {% if error %}
-            <div class="form-error">{{ error }}</div>
-        {% endif %}
 
-        <form action="/login" method="POST">
+    <form
+        id="login-form"
+        action="/login"
+        method="POST"
+    >
+
+
+        <!-- ================================= -->
+        <!-- EMAIL CARD -->
+        <!-- ================================= -->
+
+        <section
+            class="onboarding-card active"
+            data-login-step="0"
+        >
+
+            <div class="step-indicator">
+                Step 1 of 2
+            </div>
+
+
+            <h2>
+                Welcome back 👋
+            </h2>
+
+
+            <p>
+                What's the email you used for NutriFit?
+            </p>
+
+
+            {% if error %}
+
+                <div class="form-error">
+                    {{ error }}
+                </div>
+
+            {% endif %}
+
 
             <input
                 type="email"
+                id="login-email"
                 name="email"
                 placeholder="Enter your email"
+                autocomplete="email"
                 required
             >
+
+
+            <div class="onboarding-actions">
+
+
+                <a
+                    href="/"
+                    class="secondary-btn"
+                >
+                    ← Back
+                </a>
+
+
+                <button
+                    type="button"
+                    class="primary-btn"
+                    onclick="nextLoginStep()"
+                >
+                    Next →
+                </button>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================================= -->
+        <!-- PASSWORD CARD -->
+        <!-- ================================= -->
+
+        <section
+            class="onboarding-card"
+            data-login-step="1"
+        >
+
+            <div class="step-indicator">
+                Step 2 of 2
+            </div>
+
+
+            <h2>
+                Enter your password
+            </h2>
+
+
+            <p>
+                Almost there. Let's get you back into NutriFit.
+            </p>
+
 
             <input
                 type="password"
+                id="login-password"
                 name="password"
                 placeholder="Enter your password"
+                autocomplete="current-password"
                 required
             >
 
-            <button type="submit" class="primary-btn">
-                Login
-            </button>
 
-        </form>
+            <div class="onboarding-actions">
 
-        <div class="account-footer">
-            <p>
-                New User?
-                <a href="/register-page" class="text-link">Register Here</a>
-            </p>
-        </div>
 
-</div>
+                <button
+                    type="button"
+                    class="secondary-btn"
+                    onclick="previousLoginStep()"
+                >
+                    ← Back
+                </button>
+
+
+                <button
+                    type="submit"
+                    class="primary-btn"
+                >
+                    Login →
+                </button>
+
+
+            </div>
+
+
+            <div class="account-footer">
+
+                <p>
+
+                    New User?
+
+                    <a
+                        href="/register-page"
+                        class="text-link"
+                    >
+                        Register Here
+                    </a>
+
+                </p>
+
+            </div>
+
+        </section>
+
+
+    </form>
+
+
+</main>
+
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
 
 </body>
+
 </html>

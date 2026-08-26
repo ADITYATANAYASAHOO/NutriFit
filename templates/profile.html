@@ -12,117 +12,126 @@
 
 <body>
 
-<header>
-    <div class="logo">NutriFit</div>
+    <header>
+        <div class="logo">NutriFit</div>
+    </header>
 
-    <nav style="display:flex; gap:12px; align-items:center;">
+    <div class="profile-screen">
 
-        <a href="/dashboard" class="start-btn">
-            Dashboard
-        </a>
+        <section class="profile-header">
+            <h1>My Profile 👤</h1>
+        </section>
 
-        <a href="/workout" class="start-btn">
-            Workout
-        </a>
+        <section class="profile-info">
 
-        <a href="/profile" class="start-btn">
-            Profile
-        </a>
+            <div class="profile-item">
+                <span>Name</span>
+                <strong>{{ profile_data[0] }}</strong>
+            </div>
 
-    </nav>
+            <div class="profile-item">
+                <span>Email</span>
+                <strong>{{ profile_data[1] }}</strong>
+            </div>
 
-</header>
+            <div class="profile-item">
+                <span>Age</span>
+                <strong>{{ profile_data[2] }} years</strong>
+            </div>
 
-<div class="form-container">
+            <div class="profile-item">
+                <span>Height</span>
+                <strong>{{ profile_data[3]|int }} cm</strong>
+            </div>
 
-    <h2>My Profile</h2>
+            <div class="profile-item">
+                <span>Weight</span>
+                <strong>{{ profile_data[4]|int }} kg</strong>
+            </div>
 
-    <div class="form-box">
+            <div class="profile-item">
+                <span>Target Weight</span>
+                <strong>{{ profile_data[5]|int }} kg</strong>
+            </div>
 
-        <p>
-            <strong>Name:</strong>
-            {{ session['user']['name'] }}
-        </p>
+            <div class="profile-item">
+                <span>Goal</span>
+                <strong>{{ profile_data[6] }}</strong>
+            </div>
 
-        <p>
-            <strong>Email:</strong>
-            {{ session['user']['email'] }}
-        </p>
+        </section>
 
-        <p>
-            <strong>Age:</strong>
-            {{ profile_data.get('age', '-') }}
-        </p>
+        <div class="profile-actions">
 
-        <p>
-            <strong>Height:</strong>
-            {{ profile_data.get('height', '-') }} cm
-        </p>
-
-        <p>
-            <strong>Weight:</strong>
-            {{ profile_data.get('weight', '-') }} kg
-        </p>
-
-        <p>
-            <strong>Gender:</strong>
-            {{ profile_data.get('gender', '-') }}
-        </p>
-
-        <p>
-            <strong>Activity Level:</strong>
-            {{ profile_data.get('activity', '-') }}
-        </p>
-
-        <p><strong>Goal:</strong> {{ profile_data.goal }}</p>
+            <a href="/edit-profile" class="profile-action-btn update-btn">
+                Update
+            </a>
+        
+            <a href="/logout" class="profile-action-btn logout-btn">
+                Logout
+            </a>
+        
+            <a href="#" class="profile-action-btn delete-btn" onclick="openDeleteModal(); return false;">
+                Delete
+            </a>
+        
+        </div>
 
     </div>
 
-    <div class="profile-actions">
-
-        <a href="/setup-profile" class="primary-btn">
-            Update Profile
-        </a>
+    <div id="deleteModal" class="modal-overlay">
+        <div class="modal-box">
+            <h3>Delete Account?</h3>
     
-        <a href="/logout" class="primary-btn">
-            Logout
-        </a>
+            <p>
+                Are you sure you want to delete your account?<br>
+                This action cannot be undone.
+            </p>
     
-        <button type="button" class="primary-btn" onclick="openDeleteModal()">
-            Delete Account
-        </button>
-    
-    </div>
+            <div class="modal-actions">
 
-</div>
-
-<div id="deleteModal" class="modal-overlay">
-    <div class="modal-box">
-        <h3>Delete Account?</h3>
-
-        <p>
-            Are you sure you want to delete your account?<br>
-            This action cannot be undone.
-        </p>
-
-        <div class="modal-actions">
-
-            <button
-                type="button"
-                class="modal-no-btn"
-                onclick="closeDeleteModal()">
-                No
-            </button>
-
-            <form action="/delete_account" method="POST">
-                <button type="submit" class="modal-yes-btn">
-                    Yes
+                <button
+                    type="button"
+                    class="modal-no-btn"
+                    onclick="closeDeleteModal()">
+                    Cancel
                 </button>
-            </form>
-
+            
+                <form action="/delete_account" method="POST" class="modal-delete-form">
+                    <button type="submit" class="modal-yes-btn">
+                        Delete
+                    </button>
+                </form>
+            
+            </div>
+            
         </div>
     </div>
-</div>
+
+    <!-- PREMIUM NAV -->
+    <nav class="premium-nav">
+
+        <a href="/dashboard" class="premium-nav-item">
+            <span>🏠</span>
+            <small>Home</small>
+        </a>
+    
+        <a href="/meals" class="premium-nav-item">
+            <span>🍽</span>
+            <small>Meals</small>
+        </a>
+    
+        <a href="/ai" class="premium-nav-item">
+            <span>🤖</span>
+            <small>NutriBot</small>
+        </a>
+    
+        <a href="/profile" class="premium-nav-item active">
+            <span>👤</span>
+            <small>Profile</small>
+        </a>
+    
+    </nav>
 
 <script src="{{ url_for('static', filename='script.js') }}"></script>
 

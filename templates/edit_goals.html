@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Goals - NutriFit</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+    <div class="edit-goals-card">
+
+        <h2>Edit Daily Goals</h2>
+
+        <form action="/update-goals" method="POST">
+
+            <label>Calories</label>
+            <input
+                type="number"
+                name="calories"
+                value="{{ goals[0]|int }}"
+                required
+            >
+
+            <label>Protein (g)</label>
+            <input
+                type="number"
+                name="protein"
+                value="{{ goals[1]|int }}"
+                required
+            >
+
+            <label>Carbs (g)</label>
+            <input
+                type="number"
+                name="carbs"
+                value="{{ goals[2]|int }}"
+                required
+            >
+
+            <label>Fat (g)</label>
+            <input
+                type="number"
+                name="fat"
+                value="{{ goals[3]|int }}"
+                required
+            >
+
+            <button class="edit-btn" type="submit">
+                Save Goals
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Profile - NutriFit</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="edit-goals-card">
+
+        <h2>Edit Profile</h2>
+
+        <form action="/update-profile" method="POST">
+
+            <label>Name</label>
+            <input
+                type="text"
+                name="name"
+                value="{{ profile_data[0] }}"
+                required
+            >
+
+            <label>Age</label>
+            <input
+                type="number"
+                name="age"
+                value="{{ profile_data[1]|int }}"
+                min="1"
+                max="120"
+                required
+            >
+
+            <label>Height (cm)</label>
+            <input
+                type="number"
+                name="height"
+                value="{{ profile_data[2]|int }}"
+                min="50"
+                max="280"
+                required
+            >
+
+            <label>Weight (kg)</label>
+            <input
+                type="number"
+                name="weight"
+                value="{{ profile_data[3]|int }}"
+                min="10"
+                max="500"
+                required
+            >
+
+            <label>Target Weight (kg)</label>
+            <input
+                type="number"
+                name="target_weight"
+                value="{{ profile_data[4]|int }}"
+                min="10"
+                max="500"
+                step="1"
+                required
+            >
+
+            <label>Gender</label>
+
+            <select name="gender" required>
+
+                <option value="male"
+                    {% if profile_data[5] == "male" %}
+                        selected
+                    {% endif %}>
+                    Male
+                </option>
+
+                <option value="female"
+                    {% if profile_data[5] == "female" %}
+                        selected
+                    {% endif %}>
+                    Female
+                </option>
+
+            </select>
+
+
+            <label>Activity Level</label>
+
+            <select name="activity" required>
+
+                <option value="1.2"
+                    {% if profile_data[6] == "Sedentary (No exercise)" %}
+                        selected
+                    {% endif %}>
+                    Sedentary (No exercise)
+                </option>
+
+                <option value="1.375"
+                    {% if profile_data[6] == "Light Activity" %}
+                        selected
+                    {% endif %}>
+                    Light Activity
+                </option>
+
+                <option value="1.55"
+                    {% if profile_data[6] == "Moderate (Gym 3–5 days/week)" %}
+                        selected
+                    {% endif %}>
+                    Moderate (Gym 3–5 days/week)
+                </option>
+
+                <option value="1.725"
+                    {% if profile_data[6] == "Active (Daily Workout)" %}
+                        selected
+                    {% endif %}>
+                    Active (Daily Workout)
+                </option>
+
+                <option value="1.9"
+                    {% if profile_data[6] == "Very Active (Athlete)" %}
+                        selected
+                    {% endif %}>
+                    Very Active (Athlete)
+                </option>
+
+            </select>
+
+
+            <label>Goal</label>
+
+            <select name="goal" required>
+
+                <option value="cut"
+                    {% if profile_data[7] == "cut" %}
+                        selected
+                    {% endif %}>
+                    Fat Loss
+                </option>
+
+                <option value="lean_bulk"
+                    {% if profile_data[7] == "lean_bulk" %}
+                        selected
+                    {% endif %}>
+                    Lean Bulk
+                </option>
+
+                <option value="bulk"
+                    {% if profile_data[7] == "bulk" %}
+                        selected
+                    {% endif %}>
+                    Muscle Gain
+                </option>
+
+                <option value="recomp"
+                    {% if profile_data[7] == "recomp" %}
+                        selected
+                    {% endif %}>
+                    Body Recomposition
+                </option>
+
+                <option value="maintain"
+                    {% if profile_data[7] == "maintain" %}
+                        selected
+                    {% endif %}>
+                    Maintenance
+                </option>
+
+            </select>
+
+            <button class="edit-btn" type="submit">
+                Save Changes
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>

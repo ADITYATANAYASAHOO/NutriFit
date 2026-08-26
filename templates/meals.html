@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#0f172a"
+    >
+
+    <meta
+        name="description"
+        content="Track your meals and nutrition with NutriFit."
+    >
+
+    <title>NutriFit — Meals</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+<div class="dashboard-app">
+
+
+    <!-- ================================= -->
+    <!-- HEADER -->
+    <!-- ================================= -->
+
+    <section class="header-section">
+
+        <h1>
+            My Meals 🍽️
+        </h1>
+
+        <p>
+            Track what you eat today
+        </p>
+
+    </section>
+
+
+
+    <!-- ================================= -->
+    <!-- FOOD SEARCH CARD -->
+    <!-- ================================= -->
+
+    <section class="nutrition-card">
+
+        <h2>
+            Add Meal
+        </h2>
+
+
+        <form
+            action="/lookup-food"
+            method="POST"
+            class="meals-form"
+        >
+
+
+            <!-- MEAL TYPE -->
+
+            <select
+                name="meal_type"
+                required
+            >
+
+                <option value="">
+                    Select Meal
+                </option>
+
+                <option value="Breakfast">
+                    Breakfast
+                </option>
+
+                <option value="Lunch">
+                    Lunch
+                </option>
+
+                <option value="Dinner">
+                    Dinner
+                </option>
+
+                <option value="Snacks">
+                    Snacks
+                </option>
+
+            </select>
+
+
+
+            <!-- FOOD NAME -->
+
+            <input
+                type="text"
+                name="food_name"
+                placeholder="Enter food name (e.g. Paneer)"
+                value="{{ search_query or '' }}"
+                autocomplete="off"
+                required
+            >
+
+
+
+            <!-- SEARCH -->
+
+            <button
+                type="submit"
+                class="edit-btn"
+            >
+                Get Nutrition
+            </button>
+
+
+        </form>
+
+
+
+        <!-- ================================= -->
+        <!-- ERROR -->
+        <!-- ================================= -->
+
+        {% if error %}
+
+            <div class="form-error">
+
+                {{ error }}
+
+            </div>
+
+        {% endif %}
+
+
+
+        <!-- ================================= -->
+        <!-- SEARCH RESULTS -->
+        <!-- ================================= -->
+
+        {% if foods %}
+
+            <div class="food-results">
+
+                <h3>
+                    Search Results
+                </h3>
+
+
+                {% for food in foods %}
+
+
+                    <div class="food-result-card">
+
+
+                        <!-- FOOD INFORMATION -->
+
+                        <div class="food-result-info">
+
+                            <h4>
+                                {{ food.description }}
+                            </h4>
+
+
+                            {% if food.dataType %}
+
+                                <p>
+                                    {{ food.dataType }}
+                                </p>
+
+                            {% endif %}
+
+
+                            <!-- NUTRITION PREVIEW -->
+
+                            <div class="food-nutrition-preview">
+
+                                <span>
+                                    🔥
+                                    {{ food.calories|round|int }}
+                                    kcal
+                                </span>
+
+                                <span>
+                                    💪
+                                    {{ food.protein|round(1) }}g protein
+                                </span>
+
+                                <span>
+                                    🍞
+                                    {{ food.carbs|round(1) }}g carbs
+                                </span>
+
+                                <span>
+                                    🥑
+                                    {{ food.fat|round(1) }}g fat
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- ADD MEAL FORM -->
+
+                        <form
+                            action="/add-meal"
+                            method="POST"
+                            class="meal-add-form"
+                        >
+
+
+                            <!-- MEAL TYPE -->
+
+                            <input
+                                type="hidden"
+                                name="meal_type"
+                                value="{{ meal_type }}"
+                            >
+
+
+                            <!-- FOOD NAME -->
+
+                            <input
+                                type="hidden"
+                                name="food_name"
+                                value="{{ food.description }}"
+                            >
+
+
+                            <!-- USDA FOOD ID -->
+
+                            <input
+                                type="hidden"
+                                name="fdc_id"
+                                value="{{ food.fdcId }}"
+                            >
+
+
+                            <!-- NUTRITION -->
+
+                            <input
+                                type="hidden"
+                                name="protein"
+                                value="{{ food.protein }}"
+                            >
+
+                            <input
+                                type="hidden"
+                                name="carbs"
+                                value="{{ food.carbs }}"
+                            >
+
+                            <input
+                                type="hidden"
+                                name="fat"
+                                value="{{ food.fat }}"
+                            >
+
+                            <input
+                                type="hidden"
+                                name="calories"
+                                value="{{ food.calories }}"
+                            >
+
+
+
+                            <!-- QUANTITY -->
+
+                            <div class="quantity-control">
+
+                                <label for="quantity-{{ loop.index }}">
+                                    Quantity
+                                </label>
+
+                                <input
+                                    type="number"
+                                    id="quantity-{{ loop.index }}"
+                                    name="quantity"
+                                    value="1"
+                                    min="0.1"
+                                    max="100"
+                                    step="0.1"
+                                    required
+                                >
+
+                            </div>
+
+
+
+                            <!-- ADD BUTTON -->
+
+                            <button
+                                type="submit"
+                                class="food-select-btn"
+                            >
+                                Add Meal
+                            </button>
+
+
+                        </form>
+
+
+                    </div>
+
+
+                {% endfor %}
+
+
+            </div>
+
+        {% endif %}
+
+
+    </section>
+
+
+</div>
+
+
+
+<!-- ================================= -->
+<!-- BOTTOM NAVIGATION -->
+<!-- ================================= -->
+
+<nav class="premium-nav">
+
+
+    <a
+        href="/dashboard"
+        class="premium-nav-item"
+    >
+
+        <span>
+            🏠
+        </span>
+
+        <small>
+            Home
+        </small>
+
+    </a>
+
+
+
+    <a
+        href="/meals"
+        class="premium-nav-item active"
+    >
+
+        <span>
+            🍽️
+        </span>
+
+        <small>
+            Meals
+        </small>
+
+    </a>
+
+
+
+    <a
+        href="/ai"
+        class="premium-nav-item"
+    >
+
+        <span>
+            🤖
+        </span>
+
+        <small>
+            NutriBot
+        </small>
+
+    </a>
+
+
+
+    <a
+        href="/profile"
+        class="premium-nav-item"
+    >
+
+        <span>
+            👤
+        </span>
+
+        <small>
+            Profile
+        </small>
+
+    </a>
+
+
+</nav>
+
+
+
+<script
+    src="{{ url_for('static', filename='script.js') }}"
+></script>
+
+
+</body>
+
+</html>

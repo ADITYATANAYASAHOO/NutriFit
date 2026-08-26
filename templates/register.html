@@ -1,64 +1,313 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#0f172a">
-    <title>NutriFit — Register</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#0f172a"
+    >
+
+    <meta
+        name="description"
+        content="Create your NutriFit account."
+    >
+
+    <title>Create Account — NutriFit</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
 </head>
 
-<body>
+
+<body class="auth-page">
+
 
 <header>
-    <div class="logo">NutriFit</div>
+
+    <div class="logo">
+        NutriFit
+    </div>
+
 </header>
 
-<div class="form-container">
 
-    <h2>Create Account</h2>
+<main class="onboarding-container">
 
-    {% if error %}
-        <div class="form-error">{{ error }}</div>
-    {% endif %}
 
-    <form action="/register" method="POST">
+    <form
+        id="signup-form"
+        action="/register"
+        method="POST"
+    >
 
-        <input
-            type="text"
-            name="name"
-            placeholder="Enter your name"
-            required
+
+        <!-- =================================
+             NAME
+             ================================= -->
+
+        <section
+            class="onboarding-card active"
+            data-signup-step="0"
         >
 
-        <input
-            type="email"
-            name="email"
-            placeholder="Enter your email"
-            required
+            <div class="step-indicator">
+                Step 1 of 4
+            </div>
+
+
+            <h2>
+                What's your name?
+            </h2>
+
+
+            <p>
+                Let's make this personal.
+            </p>
+
+
+            <input
+                type="text"
+                id="signup-name"
+                name="name"
+                placeholder="Your name"
+                autocomplete="name"
+                required
+            >
+
+
+            <div class="onboarding-actions">
+
+                <a
+                    href="/"
+                    class="secondary-btn"
+                >
+                    ← Back
+                </a>
+
+
+                <button
+                    type="button"
+                    class="primary-btn"
+                    onclick="nextSignupStep()"
+                >
+                    Next →
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================
+             EMAIL
+             ================================= -->
+
+        <section
+            class="onboarding-card"
+            data-signup-step="1"
         >
 
-        <input
-            type="password"
-            name="password"
-            placeholder="Create password"
-            required
+            <div class="step-indicator">
+                Step 2 of 4
+            </div>
+
+
+            <h2>
+                What's your email?
+            </h2>
+
+
+            <p>
+                We'll use this to keep your account secure.
+            </p>
+
+
+            {% if error %}
+
+                <div class="form-error">
+                    {{ error }}
+                </div>
+
+            {% endif %}
+
+
+            <input
+                type="email"
+                id="signup-email"
+                name="email"
+                placeholder="you@example.com"
+                autocomplete="email"
+                required
+            >
+
+
+            <div class="onboarding-actions">
+
+                <button
+                    type="button"
+                    class="secondary-btn"
+                    onclick="previousSignupStep()"
+                >
+                    ← Back
+                </button>
+
+
+                <button
+                    type="button"
+                    class="primary-btn"
+                    onclick="nextSignupStep()"
+                >
+                    Next →
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================
+             PASSWORD
+             ================================= -->
+
+        <section
+            class="onboarding-card"
+            data-signup-step="2"
         >
 
-        <button type="submit" class="primary-btn">
-            SignUp
-        </button>
+            <div class="step-indicator">
+                Step 3 of 4
+            </div>
+
+
+            <h2>
+                Create a password
+            </h2>
+
+
+            <p>
+                Use at least 6 characters.
+            </p>
+
+
+            <input
+                type="password"
+                id="signup-password"
+                name="password"
+                placeholder="Create password"
+                autocomplete="new-password"
+                minlength="6"
+                required
+            >
+
+
+            <div class="onboarding-actions">
+
+                <button
+                    type="button"
+                    class="secondary-btn"
+                    onclick="previousSignupStep()"
+                >
+                    ← Back
+                </button>
+
+
+                <button
+                    type="button"
+                    class="primary-btn"
+                    onclick="nextSignupStep()"
+                >
+                    Next →
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================
+             CONFIRM PASSWORD
+             ================================= -->
+
+        <section
+            class="onboarding-card"
+            data-signup-step="3"
+        >
+
+            <div class="step-indicator">
+                Step 4 of 4
+            </div>
+
+
+            <h2>
+                Confirm your password
+            </h2>
+
+
+            <p>
+                Just one more check and your account is ready.
+            </p>
+
+
+            <input
+                type="password"
+                id="signup-confirm-password"
+                placeholder="Confirm password"
+                autocomplete="new-password"
+                minlength="6"
+                required
+            >
+
+
+            <div
+                id="signup-error"
+                class="form-error"
+                style="display:none;"
+            >
+            </div>
+
+
+            <div class="onboarding-actions">
+
+                <button
+                    type="button"
+                    class="secondary-btn"
+                    onclick="previousSignupStep()"
+                >
+                    ← Back
+                </button>
+
+
+                <button
+                    type="submit"
+                    class="primary-btn"
+                >
+                    Create Account →
+                </button>
+
+            </div>
+
+        </section>
+
 
     </form>
 
-    <div class="account-footer">
-        <p>
-            Already have an account?
-            <a href="/account" class="text-link">Login Here</a>
-        </p>
-    </div>
-</div>
+
+</main>
+
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
 
 </body>
+
 </html>
